@@ -23,6 +23,7 @@
  */
 
 require_once 'PEAR/Exception.php';
+require_once 'VersionControl/Git/Commit.php';
 
 /**
  * The OO interface for Git
@@ -107,14 +108,14 @@ class VersionControl_Git
           }
           array_shift($lines);
 
-          $commits[] = array(
+          $commits[] = VersionControl_Git_Commit::createInstanceByArray(array(
             'commit' => $commit,
             'tree' => $tree,
             'parents' => $parents,
             'author' => $author,
             'commiter' => $commiter,
             'message' => implode("\n", $message),
-          );
+          ));
       }
 
       return $commits;
