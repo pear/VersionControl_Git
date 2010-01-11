@@ -30,7 +30,7 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
     $this->assertTrue($commits[0] instanceof VersionControl_Git_Commit);
     $this->assertEquals(count($commits), 100);
 
-    $commits = $instance->getCommits(5);
+    $commits = $instance->getCommits('master', 5);
     $this->assertEquals(count($commits), 5);
   }
 }

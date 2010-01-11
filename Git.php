@@ -74,17 +74,9 @@ class VersionControl_Git
         $this->options = $options;
     }
 
-    // parsing will be VersionControl_Git_Commit::fetchCollection
-    //   コミットの要素は VersionControl_Git_Commit のインスタンスとなり、
-    //      commit プロパティ: VersionControl_Git_Commit を特定するID
-    //      tree             : ?
-    //      parents          : ?
-    //      author           : VersionControl_Git_Author のインスタンス
-    //      commiter         : VersionControl_Git_Author のインスタンス
-    //      message          : 文字列
-    public function getCommits($maxResults = 100)
+    public function getCommits($name = 'master', $maxResults = 100, $offset = 0)
     {
-      $string = $this->executeGit('log -'.escapeshellcmd($maxResults).' --pretty=raw');
+      $string = $this->executeGit('rev-list '.escapeshellcmd($name).' --max-count='.escapeshellcmd($maxResults - 1).' --skip='.escapeshellcmd($offset).' --pretty=raw');
       $lines = explode("\n", $string);
 
       $commits = array();
