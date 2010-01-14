@@ -24,6 +24,7 @@
 
 require_once 'PEAR/Exception.php';
 require_once 'VersionControl/Git/Commit.php';
+require_once 'VersionControl/Git/RevListHandler.php';
 
 /**
  * The OO interface for Git
@@ -74,46 +75,21 @@ class VersionControl_Git
         $this->options = $options;
     }
 
-    public function getCommits($name = 'master', $maxResults = 100, $offset = 0)
+    public function getRevListHandler()
     {
-      $string = $this->executeGit('rev-list '.escapeshellcmd($name).' --max-count='.escapeshellcmd($maxResults - 1).' --skip='.escapeshellcmd($offset).' --pretty=raw');
-      $lines = explode("\n", $string);
-
-      $commits = array();
-
-      while (count($lines)) {
-          $commit = array_shift($lines);
-          $tree = array_shift($lines);
-
-          $parents = array();
-          while (count($lines) && 0 === strpos($lines[0], 'parent')) {
-              $parents[] = array_shift($lines);
-          }
-
-          $author = array_shift($lines);
-          $commiter = array_shift($lines);
-
-          $message = array();
-          array_shift($lines);
-          while (count($lines) && 0 === strpos($lines[0], '   ')) {
-              $message[] = trim(array_shift($lines));
-          }
-          array_shift($lines);
-
-          $commits[] = VersionControl_Git_Commit::createInstanceByArray(array(
-            'commit' => $commit,
-            'tree' => $tree,
-            'parents' => $parents,
-            'author' => $author,
-            'commiter' => $commiter,
-            'message' => implode("\n", $message),
-          ));
-      }
-
-      return $commits;
+        return new VersionControl_Git_RevListHandler($this);
     }
 
-    protected function executeGit($subCommand)
+    public function getCommits($name = 'master', $maxResults = 100, $offset = 0)
+    {
+        return $this->getRevListHandler()
+            ->target($name)
+            ->maxCount($maxResults - 1)
+            ->skip($offset)
+            ->execute();
+    }
+
+    public function executeGit($subCommand)
     {
       $currentDir = getcwd();
       chdir($this->directory);
