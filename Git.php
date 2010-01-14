@@ -100,6 +100,16 @@ class VersionControl_Git
       $this->executeGit($command);
     }
 
+    public function initialRepository($isBare = false)
+    {
+      $command = 'init -q';
+      if ($isBare) {
+        $command .= ' --bare';
+      }
+
+      $this->executeGit($command);
+    }
+
     public function executeGit($subCommand)
     {
       $currentDir = getcwd();
