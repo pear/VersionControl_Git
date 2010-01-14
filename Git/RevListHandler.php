@@ -225,7 +225,7 @@ class VersionControl_Git_RevListHandler
             } elseif (false === $k) {
                 $result .= ' --no-'.$k;
             } else {
-                $result .= ' --'.$k.'='.escapeshellcmd($v);
+                $result .= ' --'.$k.'='.escapeshellarg($v);
             }
         }
 

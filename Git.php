@@ -89,6 +89,17 @@ class VersionControl_Git
             ->execute();
     }
 
+    public function createClone($repository, $isBare = false)
+    {
+      $command = 'clone';
+      if ($isBare) {
+        $command .= ' --bare';
+      }
+      $command .= ' -q '.escapeshellarg($repository);
+
+      $this->executeGit($command);
+    }
+
     public function executeGit($subCommand)
     {
       $currentDir = getcwd();
