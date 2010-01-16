@@ -94,6 +94,23 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
     // this test must be added
   }
 
+  public function testGetTree()
+  {
+    $instance = new VersionControl_Git('/home/co3k/sf/op3-ebihara');
+    $tree = $instance->getTree('master')->fetch();
+
+    var_dump('BEGIN');
+    foreach ($tree as $k => $v)
+    {
+      if ($v->isBlob())
+      {
+        $v->fetch();
+        var_dump($v->name, $v->getContent());
+      }
+    }
+    var_dump('END');
+  }
+
   protected function generateTmpDir()
   {
     $dirname = sys_get_temp_dir().DIRECTORY_SEPARATOR.'VCG_test_'.time();

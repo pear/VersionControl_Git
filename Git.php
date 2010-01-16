@@ -25,6 +25,8 @@
 require_once 'PEAR/Exception.php';
 require_once 'VersionControl/Git/Commit.php';
 require_once 'VersionControl/Git/RevListHandler.php';
+require_once 'VersionControl/Git/EntryInterface.php';
+require_once 'VersionControl/Git/Blob.php';
 require_once 'VersionControl/Git/Tree.php';
 
 /**
@@ -160,6 +162,7 @@ class VersionControl_Git
 
     public function getTree($commit)
     {
+      return new VersionControl_Git_Tree($this, $commit);
     }
 
     public function executeGit($subCommand)
