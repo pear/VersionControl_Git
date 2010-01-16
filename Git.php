@@ -110,6 +110,42 @@ class VersionControl_Git
       $this->executeGit($command);
     }
 
+    public function getBranches()
+    {
+      $result = array();
+
+      $commandResult = explode(PHP_EOL, rtrim($this->executeGit('branch')));
+      foreach ($commandResult as $k => $v) {
+        $result[$k] = substr($v, 2);
+      }
+
+      return $result;
+    }
+
+    public function getCurrentBranch()
+    {
+      return substr(trim($this->executeGit('symbolic-ref HEAD')), strlen('refs/heads/'));
+    }
+
+    public function getHeadCommits()
+    {
+      $result = array();
+
+      $commandResult = explode(PHP_EOL, trim($this->executeGit('for-each-ref '.escapeshellarg('refs/heads').' --format='.escapeshellarg('%(refname),%(objectname)'))));
+      foreach ($commandResult as $v) {
+        $pieces = explode(',', $v);
+        if (2 == count($pieces)) {
+          $result[substr($pieces[0], strlen('refs/heads/'))] = $pieces[1];
+        }
+      }
+
+      return $result;
+    }
+
+    public function getTree($branch)
+    {
+    }
+
     public function executeGit($subCommand)
     {
       $currentDir = getcwd();

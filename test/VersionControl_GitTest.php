@@ -64,6 +64,28 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
     $this->removeDirectory($dirname);
   }
 
+  public function testGetBranches()
+  {
+    $instance = new VersionControl_Git('/home/co3k/sf/op3-ebihara');
+
+    // this test must be added
+  }
+
+  public function testGetCurrentBranch()
+  {
+    $instance = new VersionControl_Git('/home/co3k/sf/op3-ebihara');
+
+    // this test must be added
+  }
+
+  public function testGetHeadCommits()
+  {
+    $instance = new VersionControl_Git('/home/co3k/sf/op3-ebihara');
+    $instance->getHeadCommits();
+
+    // this test must be added
+  }
+
   protected function generateTmpDir()
   {
     $dirname = sys_get_temp_dir().DIRECTORY_SEPARATOR.'VCG_test_'.time();
