@@ -25,6 +25,7 @@
 require_once 'PEAR/Exception.php';
 require_once 'VersionControl/Git/Commit.php';
 require_once 'VersionControl/Git/RevListHandler.php';
+require_once 'VersionControl/Git/Tree.php';
 
 /**
  * The OO interface for Git
@@ -142,7 +143,22 @@ class VersionControl_Git
       return $result;
     }
 
-    public function getTree($branch)
+    public function getHeadTags()
+    {
+      $result = array();
+
+      $commandResult = explode(PHP_EOL, trim($this->executeGit('for-each-ref '.escapeshellarg('refs/tags').' --format='.escapeshellarg('%(refname),%(objectname)'))));
+      foreach ($commandResult as $v) {
+        $pieces = explode(',', $v);
+        if (2 == count($pieces)) {
+          $result[substr($pieces[0], strlen('refs/tags/'))] = $pieces[1];
+        }
+      }
+
+      return $result;
+    }
+
+    public function getTree($commit)
     {
     }
 
