@@ -197,7 +197,7 @@ class VersionControl_Git_RevListHandler
             }
             array_shift($lines);
 
-            $commits[] = VersionControl_Git_Commit::createInstanceByArray(array(
+            $commits[] = VersionControl_Git_Commit::createInstanceByArray($this->git, array(
                 'commit' => $commit,
                 'tree' => $tree,
                 'parents' => $parents,

@@ -32,6 +32,15 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
 
     $commits = $instance->getCommits('master', 5);
     $this->assertEquals(count($commits), 5);
+/*
+    foreach ($commits as $k => $v)
+    {
+      if ($v->hasParents())
+      {
+//        var_dump($k, $v->getParents());
+      }
+    }
+    */
   }
 
   public function testCreateClone()
@@ -99,16 +108,7 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
     $instance = new VersionControl_Git('/home/co3k/sf/op3-ebihara');
     $tree = $instance->getTree('master')->fetch();
 
-    var_dump('BEGIN');
-    foreach ($tree as $k => $v)
-    {
-      if ($v->isBlob())
-      {
-        $v->fetch();
-        var_dump($v->name, $v->getContent());
-      }
-    }
-    var_dump('END');
+    // this test must be added
   }
 
   protected function generateTmpDir()

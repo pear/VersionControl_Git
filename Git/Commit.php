@@ -89,9 +89,16 @@ class VersionControl_Git_Commit
      */
     public $commitedAt;
 
-    public static function createInstanceByArray($array)
+    protected $git;
+
+    public function __construct($git)
     {
-        $obj = new VersionControl_Git_Commit();
+      $this->git = $git;
+    }
+
+    public static function createInstanceByArray($git, $array)
+    {
+        $obj = new VersionControl_Git_Commit($git);
 
         foreach ($array as $k => $v) {
           $method = 'set'.ucfirst($k);
@@ -126,15 +133,42 @@ class VersionControl_Git_Commit
       $this->tree = $parts[1];
     }
 
-    public function setParent($parent)
+    public function setParents($parent)
     {
-      $parts = explode(' ', $parent, 2);
+      $parent = (array)$parent;
+
+      $parts = explode(' ', array_shift($parent), 2);
 
       if (2 != count($parts) || 'parent' !== $parts[0]) {
           return false;
       }
 
       $this->parent = $parts[1];
+    }
+
+    public function hasParents()
+    {
+      return (bool)($this->parent);
+    }
+
+    public function getParents()
+    {
+      if (!$this->hasParents())
+      {
+        return false;
+      }
+
+      $revlist = $this->git->getRevListHandler()
+        ->target($this->parent)
+        ->maxCount(1)
+        ->execute();
+
+      if (!$revlist)
+      {
+        return false;
+      }
+
+      return $revlist[1];
     }
 
     public function setAuthor($author)
