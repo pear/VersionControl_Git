@@ -48,14 +48,4 @@ class VersionControl_Git_Object_Blob extends VersionControl_Git_Object
   {
     return $this->content;
   }
-
-  public function isBlob()
-  {
-    return true;
-  }
-
-  public function isTree()
-  {
-    return false;
-  }
 }

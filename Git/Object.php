@@ -36,19 +36,13 @@
 abstract class VersionControl_Git_Object extends VersionControl_Git_Component
 {
   public $id;
-  public $type;
 
-  public function __construct(VersionControl_Git $git, $id = null, $type = null)
+  public function __construct(VersionControl_Git $git, $id = null)
   {
     parent::__construct($git);
 
     $this->id = $id;
-    $this->type = $type;
   }
-
-  abstract public function isTree();
-
-  abstract public function isBlob();
 
   abstract public function fetch();
 
