@@ -23,9 +23,7 @@
  */
 
 /**
- * The OO interface for Git
- *
- * An instance of this class can be handled as OO interface for a Git repository.
+ * The class represents Git commits
  *
  * @category  VersionControl
  * @package   VersionControl_Git
@@ -33,24 +31,12 @@
  * @copyright 2009 Kousuke Ebihara
  * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  */
-abstract class VersionControl_Git_Entry extends VersionControl_Git_Component
+abstract class VersionControl_Git_Component
 {
-  public $type;
-  public $hash;
-  public $name;
+  protected $git;
 
-  public function __construct(VersionControl_Git $git, $hash = null, $type = null, $name = null)
+  public function __construct(VersionControl_Git $git)
   {
-    parent::__construct($git);
-
-    $this->hash = $hash;
-    $this->type = $type;
-    $this->name = $name;
+    $this->git = $git;
   }
-
-  abstract public function isTree();
-
-  abstract public function isBlob();
-
-  abstract public function fetch();
 }

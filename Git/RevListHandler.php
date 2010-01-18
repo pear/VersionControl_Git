@@ -31,16 +31,9 @@
  * @copyright 2009 Kousuke Ebihara
  * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  */
-class VersionControl_Git_RevListHandler
+class VersionControl_Git_RevListHandler extends VersionControl_Git_Component
 {
     const DEFAULT_TARGET = 'master';
-
-    /**
-     * An instance of the VersionControl_Git
-     *
-     * @var string
-     */
-    protected $git;
 
     /**
      * The target for the commit (commit range string, branch name, etc...)
@@ -68,7 +61,8 @@ class VersionControl_Git_RevListHandler
 
     public function __construct(VersionControl_Git $git)
     {
-        $this->git = $git;
+        parent::__construct($git);
+
         $this->target = self::DEFAULT_TARGET;
     }
 

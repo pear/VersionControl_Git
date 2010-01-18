@@ -37,13 +37,6 @@ class VersionControl_Git_Blob extends VersionControl_Git_Entry
 {
   protected $content;
 
-  public function __construct($git, $commit, $hash = null, $type = null, $name = null)
-  {
-    $this->git = $git;
-
-    parent::__construct($commit, $hash, $type, $name);
-  }
-
   public function fetch()
   {
     $this->content = trim($this->git->executeGit('cat-file -p  '.escapeshellarg($this->hash)));

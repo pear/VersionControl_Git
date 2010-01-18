@@ -39,14 +39,11 @@ class VersionControl_Git_Tree extends VersionControl_Git_Entry implements Seekab
 
   protected $entries = array();
 
-  protected $git;
-
-  public function __construct($git, $commit, $hash = null, $type = null, $name = null)
+  public function __construct(VersionControl_Git $git, $commit, $hash = null, $type = null, $name = null)
   {
-    $this->git = $git;
     $this->position = 0;
 
-    parent::__construct($commit, $hash, $type, $name);
+    parent::__construct($git, $commit, $hash, $type, $name);
 
 //    $this->parseTree($commit);
   }

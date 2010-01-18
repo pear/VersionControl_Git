@@ -23,6 +23,7 @@
  */
 
 require_once 'PEAR/Exception.php';
+require_once 'VersionControl/Git/Component.php';
 require_once 'VersionControl/Git/Commit.php';
 require_once 'VersionControl/Git/RevListHandler.php';
 require_once 'VersionControl/Git/EntryInterface.php';

@@ -31,7 +31,7 @@
  * @copyright 2009 Kousuke Ebihara
  * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  */
-class VersionControl_Git_Commit
+class VersionControl_Git_Commit extends VersionControl_Git_Component
 {
     /**
      * The identifier of this commit
@@ -88,13 +88,6 @@ class VersionControl_Git_Commit
      * @var string
      */
     public $commitedAt;
-
-    protected $git;
-
-    public function __construct($git)
-    {
-      $this->git = $git;
-    }
 
     public static function createInstanceByArray($git, $array)
     {
