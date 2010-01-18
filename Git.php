@@ -57,25 +57,17 @@ class VersionControl_Git
     protected $gitCommand = '/usr/bin/git';
 
     /**
-     * Array of options
-     *
-     * @var array
-     */
-    protected $options = array();
-
-    /**
      * Constructor
      *
      * @param string $reposDir  A directory path to a git repository
      */
-    public function __construct($reposDir = './', array $options = array())
+    public function __construct($reposDir = './')
     {
         if (!is_dir($reposDir)) {
             throw new PEAR_Exception('You must specified readable directory as repository.');
         }
 
         $this->directory = $reposDir;
-        $this->options = $options;
     }
 
     public function getRevListHandler()
@@ -184,24 +176,5 @@ class VersionControl_Git
       }
 
       return $result;
-    }
-
-    public function getOption($name, $default = null)
-    {
-        if (isset($this->options[$name])) {
-            return $this->options[$name];
-        }
-
-        return $default;
-    }
-
-    public function setOption($name, $value)
-    {
-        $this->options[$name] = $value;
-    }
-
-    public function hasOption($name)
-    {
-        return isset($this->options[$name]);
     }
 }
