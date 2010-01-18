@@ -38,49 +38,49 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
      *
      * @var string
      */
-    public $tree;
+    protected $tree;
 
     /**
      * The identifier of this parent
      *
      * @var string
      */
-    public $parent;
+    protected $parent;
 
     /**
      * The identifier of this author
      *
      * @var string
      */
-    public $author;
+    protected $author;
 
     /**
      * The identifier of this commiter
      *
      * @var string
      */
-    public $commiter;
+    protected $commiter;
 
     /**
      * The identifier of this message
      *
      * @var string
      */
-    public $message;
+    protected $message;
 
     /**
      * The identifier of this message
      *
      * @var string
      */
-    public $createdAt;
+    protected $createdAt;
 
     /**
      * The identifier of this message
      *
      * @var string
      */
-    public $commitedAt;
+    protected $commitedAt;
 
     public static function createInstanceByArray($git, $array)
     {
@@ -115,6 +115,11 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
       }
 
       $this->tree = $parts[1];
+    }
+
+    public function getTree()
+    {
+      return $this->tree;
     }
 
     public function setParents($parent)
@@ -168,6 +173,16 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
       $this->createdAt = $date;
     }
 
+    public function getAuthor()
+    {
+      return $this->author;
+    }
+
+    public function getCreatedAt()
+    {
+      return $this->createdAt;
+    }
+
     public function setCommiter($commiter)
     {
       $parts = explode(' ', $commiter, 2);
@@ -181,9 +196,24 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
       $this->commitedAt = $date;
     }
 
+    public function getCommiter()
+    {
+      return $this->commiter;
+    }
+
+    public function getCommitedAt()
+    {
+      return $this->commitedAt;
+    }
+
     public function setMessage($message)
     {
       $this->message = $message;
+    }
+
+    public function getMessage()
+    {
+      return $this->message;
     }
 
     protected function parseUser($userAndTimestamp)
