@@ -27,7 +27,7 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
     $instance = new VersionControl_Git('/home/co3k/sf/op3-ebihara');
     $commits = $instance->getCommits();
 
-    $this->assertTrue($commits[0] instanceof VersionControl_Git_Commit);
+    $this->assertTrue($commits[0] instanceof VersionControl_Git_Object_Commit);
     $this->assertEquals(count($commits), 100);
 
     $commits = $instance->getCommits('master', 5);

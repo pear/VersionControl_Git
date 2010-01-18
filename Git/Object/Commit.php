@@ -31,15 +31,8 @@
  * @copyright 2009 Kousuke Ebihara
  * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  */
-class VersionControl_Git_Commit extends VersionControl_Git_Component
+class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
 {
-    /**
-     * The identifier of this commit
-     *
-     * @var string
-     */
-    public $commit;
-
     /**
      * The identifier of this tree
      *
@@ -91,7 +84,16 @@ class VersionControl_Git_Commit extends VersionControl_Git_Component
 
     public static function createInstanceByArray($git, $array)
     {
-        $obj = new VersionControl_Git_Commit($git);
+        if (!isset($array['commit']) || !$array['commit'])
+        {
+            throw new Exception('The commit object must have id');
+        }
+
+        $parts = explode(' ', $array['commit'], 2);
+        $id =  $parts[1];
+        unset($array['commit']);
+
+        $obj = new VersionControl_Git_Object_Commit($git, $id);
 
         foreach ($array as $k => $v) {
           $method = 'set'.ucfirst($k);
@@ -102,17 +104,6 @@ class VersionControl_Git_Commit extends VersionControl_Git_Component
         }
 
         return $obj;
-    }
-
-    public function setCommit($commit)
-    {
-      $parts = explode(' ', $commit, 2);
-
-      if (2 != count($parts) || 'commit' !== $parts[0]) {
-          return false;
-      }
-
-      $this->commit = $parts[1];
     }
 
     public function setTree($tree)
@@ -204,4 +195,11 @@ class VersionControl_Git_Commit extends VersionControl_Git_Component
 
       return array(null, null);
     }
+
+  public function fetch()
+  {
+    // TODO: If the class is not entirety, this method inserts values to some properties
+
+    return $this;
+  }
 }

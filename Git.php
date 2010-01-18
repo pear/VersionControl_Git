@@ -23,10 +23,13 @@
  */
 
 require_once 'PEAR/Exception.php';
+
 require_once 'VersionControl/Git/Component.php';
-require_once 'VersionControl/Git/Commit.php';
+
 require_once 'VersionControl/Git/Util/RevListFetcher.php';
+
 require_once 'VersionControl/Git/Object.php';
+require_once 'VersionControl/Git/Object/Commit.php';
 require_once 'VersionControl/Git/Object/Blob.php';
 require_once 'VersionControl/Git/Object/Tree.php';
 
@@ -80,7 +83,7 @@ class VersionControl_Git
     {
         return $this->getRevListFetcher()
             ->target($name)
-            ->maxCount($maxResults - 1)
+            ->maxCount($maxResults)
             ->skip($offset)
             ->execute();
     }

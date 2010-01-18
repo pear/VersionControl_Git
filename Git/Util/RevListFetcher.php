@@ -174,6 +174,10 @@ class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Componen
 
         while (count($lines)) {
             $commit = array_shift($lines);
+            if (!$commit) {
+              continue;
+            }
+
             $tree = array_shift($lines);
 
             $parents = array();
@@ -191,7 +195,7 @@ class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Componen
             }
             array_shift($lines);
 
-            $commits[] = VersionControl_Git_Commit::createInstanceByArray($this->git, array(
+            $commits[] = VersionControl_Git_Object_Commit::createInstanceByArray($this->git, array(
                 'commit' => $commit,
                 'tree' => $tree,
                 'parents' => $parents,
