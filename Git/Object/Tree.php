@@ -39,11 +39,11 @@ class VersionControl_Git_Object_Tree extends VersionControl_Git_Object implement
 
   protected $entries = array();
 
-  public function __construct(VersionControl_Git $git, $id, $type = null, $name = null)
+  public function __construct(VersionControl_Git $git, $id, $type = null)
   {
     $this->position = 0;
 
-    parent::__construct($git, $id, $type, $name);
+    parent::__construct($git, $id, $type);
   }
 
   public function fetch()
@@ -54,7 +54,7 @@ class VersionControl_Git_Object_Tree extends VersionControl_Git_Object implement
       list ($mode, $type, $id, $name) = explode(' ', str_replace("\t", ' ', $line), 4);
 
       $class = 'VersionControl_Git_Object_'.ucfirst($type);
-      $this->entries[] = new $class($this->git, $id, $type, $name);
+      $this->entries[] = new $class($this->git, $id, $type);
     }
 
     return $this;
