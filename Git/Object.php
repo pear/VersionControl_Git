@@ -33,7 +33,7 @@
  * @copyright 2009 Kousuke Ebihara
  * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  */
-abstract class VersionControl_Git_Entry extends VersionControl_Git_Component
+abstract class VersionControl_Git_Object extends VersionControl_Git_Component
 {
   public $type;
   public $hash;

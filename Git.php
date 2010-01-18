@@ -26,9 +26,9 @@ require_once 'PEAR/Exception.php';
 require_once 'VersionControl/Git/Component.php';
 require_once 'VersionControl/Git/Commit.php';
 require_once 'VersionControl/Git/RevListHandler.php';
-require_once 'VersionControl/Git/EntryInterface.php';
-require_once 'VersionControl/Git/Blob.php';
-require_once 'VersionControl/Git/Tree.php';
+require_once 'VersionControl/Git/Object.php';
+require_once 'VersionControl/Git/Object/Blob.php';
+require_once 'VersionControl/Git/Object/Tree.php';
 
 /**
  * The OO interface for Git
@@ -155,7 +155,7 @@ class VersionControl_Git
 
     public function getTree($commit)
     {
-      return new VersionControl_Git_Tree($this, $commit);
+      return new VersionControl_Git_Object_Tree($this, $commit);
     }
 
     public function executeGit($subCommand)

@@ -33,73 +33,29 @@
  * @copyright 2009 Kousuke Ebihara
  * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  */
-class VersionControl_Git_Tree extends VersionControl_Git_Entry implements SeekableIterator
+class VersionControl_Git_Object_Blob extends VersionControl_Git_Object
 {
-  protected $position = 0;
-
-  protected $entries = array();
-
-  public function __construct(VersionControl_Git $git, $commit, $hash = null, $type = null, $name = null)
-  {
-    $this->position = 0;
-
-    parent::__construct($git, $commit, $hash, $type, $name);
-
-//    $this->parseTree($commit);
-  }
+  protected $content;
 
   public function fetch()
   {
-    $lines = explode(PHP_EOL, trim($this->git->executeGit('ls-tree '.escapeshellarg($this->hash))));
-    foreach ($lines as $line)
-    {
-      list ($mode, $type, $hash, $name) = explode(' ', str_replace("\t", ' ', $line), 4);
-
-      $class = 'VersionControl_Git_'.ucfirst($type);
-      $this->entries[] = new $class($this->git, $hash, $type, $name);
-    }
+    $this->content = trim($this->git->executeGit('cat-file -p  '.escapeshellarg($this->hash)));
 
     return $this;
   }
 
-  public function seek($position)
+  public function getContent()
   {
-    $this->position = $position;
-
-    if (!$this->valid()) {
-      throw new OutOfBoundsException('Invalid');
-    }
+    return $this->content;
   }
-
-  public function rewind()
-  {
-      $this->position = 0;
-  }
-
-  public function current()
-  {
-    return $this->entries[$this->position];
-  }
-
-    public function key() {
-        return $this->position;
-    }
-
-    public function next() {
-        ++$this->position;
-    }
-
-    public function valid() {
-        return isset($this->entries[$this->position]);
-    }
 
   public function isBlob()
   {
-    return false;
+    return true;
   }
 
   public function isTree()
   {
-    return true;
+    return false;
   }
 }
