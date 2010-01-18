@@ -39,6 +39,8 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
 
   protected $options = array();
 
+  protected $doubleDash = false;
+
   public function setSubCommand($command)
   {
     $this->subCommand = $command;
@@ -74,6 +76,13 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
     return $this;
   }
 
+  public function addDoubleDash($isAdding)
+  {
+    $this->doubleDash = $isAdding;
+
+    return $this;
+  }
+
   public function execute($arguments = array(), $options = array())
   {
     if (!$this->subCommand) {
@@ -103,6 +112,10 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
 
     foreach ($arguments as $v) {
       $command .= ' '.escapeshellarg($v);
+    }
+
+    if ($this->doubleDash) {
+      $command .= ' --';
     }
 
     $currentDir = getcwd();

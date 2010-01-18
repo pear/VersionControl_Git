@@ -75,6 +75,11 @@ class VersionControl_Git
         $this->directory = $reposDir;
     }
 
+    /**
+     * Get an instance of the VersionControl_Git_Util_RevListFetcher that belongs this repository
+     *
+     * @return VersionControl_Git_Util_RevListFetcher
+     */
     public function getRevListFetcher()
     {
         return new VersionControl_Git_Util_RevListFetcher($this);
@@ -84,6 +89,7 @@ class VersionControl_Git
     {
         return $this->getRevListFetcher()
             ->target($object)
+            ->addDoubleDash(true)
             ->setOption('max-count', $maxResults)
             ->setOption('skip', $offset)
             ->fetch();
@@ -123,6 +129,15 @@ class VersionControl_Git
       return substr(trim($this->getCommand('symbolic-ref')->addArgument('HEAD')->execute()), strlen('refs/heads/'));
     }
 
+    public function checkout($object)
+    {
+      $this->getCommand('checkout')
+        ->addDoubleDash(true)
+        ->setOption('q')
+        ->addArgument($object)
+        ->execute();
+    }
+
     public function getHeadCommits()
     {
       $result = array();
@@ -141,7 +156,7 @@ class VersionControl_Git
       return $result;
     }
 
-    public function getHeadTags()
+    public function getTags()
     {
       $result = array();
 
