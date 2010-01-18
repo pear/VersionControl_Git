@@ -42,23 +42,6 @@ class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Util_Com
      */
      protected $target = self::DEFAULT_TARGET;
 
-    /**
-     * An command options
-     *
-     * @var array
-     */
-    protected $commandOptions = array(
-        'max-count' => null,
-        'skip'      => null,
-        'max-age'   => null,
-        'min-age'   => null,
-        'merges'    => null,
-        'all'       => null,
-        'branches'  => null,
-        'tags'      => null,
-        'remotes'   => null,
-    );
-
     public function target($target)
     {
         $this->target = $target;
