@@ -31,7 +31,7 @@
  * @copyright 2009 Kousuke Ebihara
  * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  */
-class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Component
+class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Util_Command
 {
     const DEFAULT_TARGET = 'master';
 
@@ -40,7 +40,7 @@ class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Componen
      *
      * @var string
      */
-     protected $target;
+     protected $target = self::DEFAULT_TARGET;
 
     /**
      * An command options
@@ -59,13 +59,6 @@ class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Componen
         'remotes'   => null,
     );
 
-    public function __construct(VersionControl_Git $git)
-    {
-        parent::__construct($git);
-
-        $this->target = self::DEFAULT_TARGET;
-    }
-
     public function target($target)
     {
         $this->target = $target;
@@ -73,99 +66,21 @@ class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Componen
         return $this;
     }
 
-    public function maxCount($count)
-    {
-        $this->commandOptions['max-count'] = $count;
-
-        return $this;
-    }
-
-    public function skip($number)
-    {
-        $this->commandOptions['skip'] = $number;
-
-        return $this;
-    }
-
-    public function maxAge($age)
-    {
-        $this->commandOptions['max-age'] = $age;
-
-        return $this;
-    }
-
-    public function minAge($age)
-    {
-        $this->commandOptions['mix-age'] = $age;
-
-        return $this;
-    }
-
-    public function merges()
-    {
-        $this->commandOptions['merges'] = true;
-
-        return $this;
-    }
-
-    public function noMerges()
-    {
-        $this->commandOptions['merges'] = false;
-
-        return $this;
-    }
-
-    public function all()
-    {
-        $this->commandOptions['all'] = true;
-
-        return $this;
-    }
-
-    public function branches()
-    {
-        $this->commandOptions['branches'] = true;
-
-        return $this;
-    }
-
-    public function tags()
-    {
-        $this->commandOptions['tags'] = true;
-
-        return $this;
-    }
-
-    public function remotes()
-    {
-        $this->commandOptions['remotes'] = true;
-
-        return $this;
-    }
-
-    public function getOption($key)
-    {
-        if (isset($this->commandOptions[$key])) {
-            return $this->commandOptions[$key];
-        }
-
-        return false;
-    }
-
     public function reset()
     {
-        foreach ($this->commandOptions as $k => $v) {
-            $this->commandOptions[$k] = null;
-        }
-
+        $this->options = array();
         $this->target = self::DEFAULT_TARGET;
 
         return $this;
     }
 
-    public function execute()
+    public function fetch()
     {
-        $string = $this->git->executeGit('rev-list '.escapeshellcmd($this->target).$this->buildOptionsString($this->commandOptions).' --pretty=raw');
+        $string = $this->setSubCommand('rev-list')
+          ->setOption('pretty', 'raw')
+          ->setArguments(array($this->target))
+          ->execute();
+
         $lines = explode("\n", $string);
 
         $this->reset();
@@ -206,27 +121,5 @@ class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Componen
         }
 
         return $commits;
-    }
-
-    protected function buildOptionsString($options)
-    {
-        $result = '';
-
-        foreach ($options as $k => $v)
-        {
-            if (null === $v) {
-                continue;
-            }
-
-            if (true === $k) {
-                $result .= ' --'.$k;
-            } elseif (false === $k) {
-                $result .= ' --no-'.$k;
-            } else {
-                $result .= ' --'.$k.'='.escapeshellarg($v);
-            }
-        }
-
-        return $result;
     }
 }

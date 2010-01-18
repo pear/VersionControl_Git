@@ -144,8 +144,8 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
 
       $revlist = $this->git->getRevListFetcher()
         ->target($this->parent)
-        ->maxCount(1)
-        ->execute();
+        ->setOption('max-count', 1)
+        ->fetch();
 
       if (!$revlist)
       {

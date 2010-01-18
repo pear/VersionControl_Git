@@ -26,6 +26,7 @@ require_once 'PEAR/Exception.php';
 
 require_once 'VersionControl/Git/Component.php';
 
+require_once 'VersionControl/Git/Util/Command.php';
 require_once 'VersionControl/Git/Util/RevListFetcher.php';
 
 require_once 'VersionControl/Git/Object.php';
@@ -83,37 +84,33 @@ class VersionControl_Git
     {
         return $this->getRevListFetcher()
             ->target($name)
-            ->maxCount($maxResults)
-            ->skip($offset)
-            ->execute();
+            ->setOption('max-count', $maxResults)
+            ->setOption('skip', $offset)
+            ->fetch();
     }
 
     public function createClone($repository, $isBare = false)
     {
-      $command = 'clone';
-      if ($isBare) {
-        $command .= ' --bare';
-      }
-      $command .= ' -q '.escapeshellarg($repository);
-
-      $this->executeGit($command);
+      $this->getCommand('clone')
+        ->setOption('bare', $isBare)
+        ->setOption('q')
+        ->addArgument($repository)
+        ->execute();
     }
 
     public function initialRepository($isBare = false)
     {
-      $command = 'init -q';
-      if ($isBare) {
-        $command .= ' --bare';
-      }
-
-      $this->executeGit($command);
+      $this->getCommand('init')
+        ->setOption('bare', $isBare)
+        ->setOption('q')
+        ->execute();
     }
 
     public function getBranches()
     {
       $result = array();
 
-      $commandResult = explode(PHP_EOL, rtrim($this->executeGit('branch')));
+      $commandResult = explode(PHP_EOL, rtrim($this->getCommand('branch')->execute()));
       foreach ($commandResult as $k => $v) {
         $result[$k] = substr($v, 2);
       }
@@ -123,14 +120,17 @@ class VersionControl_Git
 
     public function getCurrentBranch()
     {
-      return substr(trim($this->executeGit('symbolic-ref HEAD')), strlen('refs/heads/'));
+      return substr(trim($this->getCommand('symbolic-ref')->addArgument('HEAD')->execute()), strlen('refs/heads/'));
     }
 
     public function getHeadCommits()
     {
       $result = array();
+      $command = $this->getCommand('for-each-ref')
+        ->setOption('format', '%(refname),%(objectname)')
+        ->addArgument('refs/heads');
 
-      $commandResult = explode(PHP_EOL, trim($this->executeGit('for-each-ref '.escapeshellarg('refs/heads').' --format='.escapeshellarg('%(refname),%(objectname)'))));
+      $commandResult = explode(PHP_EOL, trim($command->execute()));
       foreach ($commandResult as $v) {
         $pieces = explode(',', $v);
         if (2 == count($pieces)) {
@@ -145,7 +145,11 @@ class VersionControl_Git
     {
       $result = array();
 
-      $commandResult = explode(PHP_EOL, trim($this->executeGit('for-each-ref '.escapeshellarg('refs/tags').' --format='.escapeshellarg('%(refname),%(objectname)'))));
+      $command = $this->getCommand('for-each-ref')
+        ->setOption('format', '%(refname),%(objectname)')
+        ->addArgument('refs/tags');
+
+      $commandResult = explode(PHP_EOL, trim($command->execute()));
       foreach ($commandResult as $v) {
         $pieces = explode(',', $v);
         if (2 == count($pieces)) {
@@ -161,24 +165,21 @@ class VersionControl_Git
       return new VersionControl_Git_Object_Tree($this, $commit);
     }
 
-    public function executeGit($subCommand)
+    public function getCommand($subCommand)
     {
-      $currentDir = getcwd();
-      chdir($this->directory);
+      $command = new VersionControl_Git_Util_Command($this);
+      $command->setSubCommand($subCommand);
 
-      $outputFile = tempnam(sys_get_temp_dir(), 'VCG');
+      return $command;
+    }
 
-      $status = trim(shell_exec($this->gitCommand.' '.$subCommand.' > '.$outputFile.'; echo $?'));
-      $result = file_get_contents($outputFile);
-      unlink($outputFile);
+    public function getDirectory()
+    {
+      return $this->directory;
+    }
 
-      chdir($currentDir);
-
-      if ($status)
-      {
-        throw new PEAR_Exception('Some errors in executing git command: '.$result);
-      }
-
-      return $result;
+    public function getGitCommand()
+    {
+      return $this->gitCommand;
     }
 }

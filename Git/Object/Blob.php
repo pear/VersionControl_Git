@@ -39,7 +39,10 @@ class VersionControl_Git_Object_Blob extends VersionControl_Git_Object
 
   public function fetch()
   {
-    $this->content = trim($this->git->executeGit('cat-file -p  '.escapeshellarg($this->id)));
+    $command = $this->git->getCommand('cat-file')
+      ->setOption('p')
+      ->addArgument($this->id);
+    $this->content = trim($command->execute());
 
     return $this;
   }
