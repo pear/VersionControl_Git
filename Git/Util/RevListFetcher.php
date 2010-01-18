@@ -31,7 +31,7 @@
  * @copyright 2009 Kousuke Ebihara
  * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  */
-class VersionControl_Git_RevListHandler extends VersionControl_Git_Component
+class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Component
 {
     const DEFAULT_TARGET = 'master';
 

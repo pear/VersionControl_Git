@@ -151,7 +151,7 @@ class VersionControl_Git_Commit extends VersionControl_Git_Component
         return false;
       }
 
-      $revlist = $this->git->getRevListHandler()
+      $revlist = $this->git->getRevListFetcher()
         ->target($this->parent)
         ->maxCount(1)
         ->execute();
