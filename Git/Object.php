@@ -35,15 +35,15 @@
  */
 abstract class VersionControl_Git_Object extends VersionControl_Git_Component
 {
+  public $id;
   public $type;
-  public $hash;
   public $name;
 
-  public function __construct(VersionControl_Git $git, $hash = null, $type = null, $name = null)
+  public function __construct(VersionControl_Git $git, $id = null, $type = null, $name = null)
   {
     parent::__construct($git);
 
-    $this->hash = $hash;
+    $this->id = $id;
     $this->type = $type;
     $this->name = $name;
   }
@@ -53,4 +53,9 @@ abstract class VersionControl_Git_Object extends VersionControl_Git_Component
   abstract public function isBlob();
 
   abstract public function fetch();
+
+  public function __toString()
+  {
+    return $this->id;
+  }
 }
