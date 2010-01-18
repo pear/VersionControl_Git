@@ -80,7 +80,7 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
       throw new PEAR_Exception('You must specified "subCommand"');
     }
 
-    $command = $this->git->getGitCommand().' '.$this->subCommand;
+    $command = $this->git->getGitCommandPath().' '.$this->subCommand;
 
     $arguments = array_merge($this->arguments, $arguments);
     $options = array_merge($this->options, $options);

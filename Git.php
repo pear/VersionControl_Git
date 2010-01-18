@@ -59,7 +59,7 @@ class VersionControl_Git
      *
      * @var string
      */
-    protected $gitCommand = '/usr/bin/git';
+    protected $gitCommandPath = '/usr/bin/git';
 
     /**
      * Constructor
@@ -80,10 +80,10 @@ class VersionControl_Git
         return new VersionControl_Git_Util_RevListFetcher($this);
     }
 
-    public function getCommits($name = 'master', $maxResults = 100, $offset = 0)
+    public function getCommits($object = 'master', $maxResults = 100, $offset = 0)
     {
         return $this->getRevListFetcher()
-            ->target($name)
+            ->target($object)
             ->setOption('max-count', $maxResults)
             ->setOption('skip', $offset)
             ->fetch();
@@ -160,9 +160,9 @@ class VersionControl_Git
       return $result;
     }
 
-    public function getTree($commit)
+    public function getTree($object)
     {
-      return new VersionControl_Git_Object_Tree($this, $commit);
+      return new VersionControl_Git_Object_Tree($this, $object);
     }
 
     public function getCommand($subCommand)
@@ -178,8 +178,13 @@ class VersionControl_Git
       return $this->directory;
     }
 
-    public function getGitCommand()
+    public function getGitCommandPath()
     {
-      return $this->gitCommand;
+      return $this->gitCommandPath;
+    }
+
+    public function setGitCommandPath($path)
+    {
+      $this->gitCommandPath = $path;
     }
 }
