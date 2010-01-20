@@ -33,13 +33,13 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
     $this->assertEquals(count($commits), 5);
 
     $commits = $instance->getCommits('master', 1);
-    $this->assertEquals($commits[0]->id, 'ddf8aa7e97a206847658c90a26fe740b2e17231a');
+    $this->assertEquals($commits[0]->id, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
 
     $commits = $instance->getCommits('branch1', 1);
     $this->assertEquals($commits[0]->id, '373efdec06a5847fd279d8c442dbfdd5df41e783');
 
     $commits = $instance->getCommits('master', 1, 10);
-    $this->assertEquals($commits[0]->id, 'b5e1faccd790d04e9ad2d48b26f8f836ece4af5d');
+    $this->assertEquals($commits[0]->id, 'bf3488d82c09a749cefbb2633f9605b6ab5cf71e');
   }
 
   public function testCreateClone()
@@ -99,8 +99,7 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
     $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
     $heads = $instance->getHeadCommits();
 
-    $this->assertEquals($heads['master'], 'ddf8aa7e97a206847658c90a26fe740b2e17231a');
-    $this->assertEquals($heads['branch2'], $heads['master']);
+    $this->assertEquals($heads['master'], '4ed54abb8efca38a0c794ca414b1f296279e0d85');
     $this->assertEquals($heads['branch1'], '373efdec06a5847fd279d8c442dbfdd5df41e783');
   }
 
