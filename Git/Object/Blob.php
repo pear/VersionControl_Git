@@ -25,9 +25,7 @@
  */
 
 /**
- * The OO interface for Git
- *
- * An instance of this class can be handled as OO interface for a Git repository.
+ * The OO interface for blob object
  *
  * @category  VersionControl
  * @package   VersionControl_Git
@@ -37,20 +35,36 @@
  */
 class VersionControl_Git_Object_Blob extends VersionControl_Git_Object
 {
-  protected $content;
+    /**
+     * The contents of this object
+     *
+     * @var string
+     */
+    protected $content;
 
-  public function fetch()
-  {
-    $command = $this->git->getCommand('cat-file')
-      ->setOption('p')
-      ->addArgument($this->id);
-    $this->content = trim($command->execute());
+    /**
+     * Fetch the substance of this object
+     *
+     * @return VersionControl_Git_Object The "$this" object for method chain
+     */
+    public function fetch()
+    {
+        $command = $this->git->getCommand('cat-file')
+            ->setOption('p')
+            ->addArgument($this->id);
 
-    return $this;
-  }
+        $this->content = trim($command->execute());
 
-  public function getContent()
-  {
-    return $this->content;
-  }
+        return $this;
+    }
+
+    /**
+     * Get the contents of this object
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
 }

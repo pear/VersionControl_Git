@@ -25,7 +25,10 @@
  */
 
 /**
- * The class represents Git commits
+ * The base class of all components for VersionControl_Git
+ *
+ * Components must be inherit from this to be related to an instance of
+ * the VersionControl_Git.
  *
  * @category  VersionControl
  * @package   VersionControl_Git
@@ -35,10 +38,20 @@
  */
 abstract class VersionControl_Git_Component
 {
-  protected $git;
+    /**
+     * The related instance of the VersionControl_Git
+     *
+     * @var VersionControl_Git
+     */
+    protected $git;
 
-  public function __construct(VersionControl_Git $git)
-  {
-    $this->git = $git;
-  }
+    /**
+     * Constructor
+     *
+     * @param VersionControl_Git $git An instance of the VersionControl_Git
+     */
+    public function __construct(VersionControl_Git $git)
+    {
+        $this->git = $git;
+    }
 }

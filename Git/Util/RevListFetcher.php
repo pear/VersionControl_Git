@@ -35,6 +35,11 @@
  */
 class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Util_Command
 {
+    /**
+     * The default target value
+     *
+     * @var string
+     */
     const DEFAULT_TARGET = 'master';
 
     /**
@@ -42,8 +47,15 @@ class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Util_Com
      *
      * @var string
      */
-     protected $target = self::DEFAULT_TARGET;
+    protected $target = self::DEFAULT_TARGET;
 
+    /**
+     * Set the target
+     *
+     * @param string $target The target for the commits that you want to get
+     *
+     * @return VersionControl_Git_Util_RevListFetcher The "$this" object
+     */
     public function target($target)
     {
         $this->target = $target;
@@ -51,14 +63,25 @@ class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Util_Com
         return $this;
     }
 
+    /**
+     * Reset properties
+     *
+     * @return VersionControl_Git_Util_RevListFetcher The "$this" object
+     */
     public function reset()
     {
         $this->options = array();
+
         $this->target = self::DEFAULT_TARGET;
 
         return $this;
     }
 
+    /**
+     * Fetch the commits
+     *
+     * @return array An array of instances of VersionControl_Git_Object_Commit
+     */
     public function fetch()
     {
         $string = $this->setSubCommand('rev-list')
@@ -75,7 +98,7 @@ class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Util_Com
         while (count($lines)) {
             $commit = array_shift($lines);
             if (!$commit) {
-              continue;
+                continue;
             }
 
             $tree = array_shift($lines);
@@ -85,7 +108,7 @@ class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Util_Com
                 $parents[] = array_shift($lines);
             }
 
-            $author = array_shift($lines);
+            $author    = array_shift($lines);
             $committer = array_shift($lines);
 
             $message = array();

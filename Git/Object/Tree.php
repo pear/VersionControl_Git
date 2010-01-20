@@ -25,9 +25,7 @@
  */
 
 /**
- * The OO interface for Git
- *
- * An instance of this class can be handled as OO interface for a Git repository.
+ * The OO interface for tree object
  *
  * @category  VersionControl
  * @package   VersionControl_Git
@@ -37,62 +35,120 @@
  */
 class VersionControl_Git_Object_Tree extends VersionControl_Git_Object implements SeekableIterator
 {
-  protected $position = 0;
+    /**
+     * The current position
+     *
+     * @var int
+     */
+    protected $position = 0;
 
-  protected $objects = array();
+    /**
+     * An array of instances of object
+     *
+     * @var array
+     */
+    protected $objects = array();
 
-  public function __construct(VersionControl_Git $git, $id)
-  {
-    $this->position = 0;
-
-    parent::__construct($git, $id);
-  }
-
-  public function fetch()
-  {
-    $command = $this->git->getCommand('ls-tree')
-      ->addArgument($this->id);
-
-    $lines = explode(PHP_EOL, trim($command->execute()));
-    foreach ($lines as $line)
+    /**
+     * Constructor
+     *
+     * @param VersionControl_Git $git An instance of the VersionControl_Git
+     * @param string             $id  An identifier of this object
+     */
+    public function __construct(VersionControl_Git $git, $id)
     {
-      list ($mode, $type, $id, $name) = explode(' ', str_replace("\t", ' ', $line), 4);
+        $this->position = 0;
 
-      $class = 'VersionControl_Git_Object_'.ucfirst($type);
-      $this->objects[] = new $class($this->git, $id);
+        parent::__construct($git, $id);
     }
 
-    return $this;
-  }
+    /**
+     * Fetch the substance of this object
+     *
+     * @return VersionControl_Git_Object The "$this" object for method chain
+     */
+    public function fetch()
+    {
+        $command = $this->git->getCommand('ls-tree')
+            ->addArgument($this->id);
 
-  public function seek($position)
-  {
-    $this->position = $position;
+        $lines = explode(PHP_EOL, trim($command->execute()));
+        foreach ($lines as $line) {
+            $itemString = str_replace("\t", ' ', $line);
 
-    if (!$this->valid()) {
-      throw new PEAR_Exception('Invalid offset is specified');
+            list ($mode, $type, $id, $name) = explode(' ', $itemString, 4);
+
+            $class = 'VersionControl_Git_Object_'.ucfirst($type);
+
+            $this->objects[] = new $class($this->git, $id);
+        }
+
+        return $this;
     }
-  }
 
-  public function rewind()
-  {
-      $this->position = 0;
-  }
+    /**
+     * Seeks to the specified position
+     *
+     * @param int $position The position to seek to
+     *
+     * @return null
+     */
+    public function seek($position)
+    {
+        $this->position = $position;
 
-  public function current()
-  {
-    return $this->objects[$this->position];
-  }
+        if (!$this->valid()) {
+            throw new PEAR_Exception('Invalid offset is specified');
+        }
+    }
 
-    public function key() {
+    /**
+     * Rewind this iterator to the first position
+     *
+     * @return null
+     */
+    public function rewind()
+    {
+        $this->position = 0;
+    }
+
+    /**
+     * Get the current value
+     *
+     * @return VersionControl_Git_Object
+     */
+    public function current()
+    {
+        return $this->objects[$this->position];
+    }
+
+    /**
+     * Get the current key
+     *
+     * @return int
+     */
+    public function key()
+    {
         return $this->position;
     }
 
-    public function next() {
+    /**
+     * Move forward to next positon
+     *
+     * @return null
+     */
+    public function next()
+    {
         ++$this->position;
     }
 
-    public function valid() {
+    /**
+     * Checks if current position is valid
+     *
+     * @return bool
+     */
+    public function valid()
+    {
         return isset($this->objects[$this->position]);
     }
 }

@@ -36,69 +36,78 @@
 class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
 {
     /**
-     * The identifier of this tree
+     * The tree object related to this commit
      *
      * @var string
      */
     protected $tree;
 
     /**
-     * The identifier of this parent
+     * The parent object related to this commit
      *
-     * @var string
+     * @var array
      */
     protected $parent;
 
     /**
-     * The identifier of this author
+     * The author related to this commit
      *
      * @var string
      */
     protected $author;
 
     /**
-     * The identifier of this committer
+     * The commiter related to this commit
      *
      * @var string
      */
     protected $committer;
 
     /**
-     * The identifier of this message
+     * The message related to this commit
      *
      * @var string
      */
     protected $message;
 
     /**
-     * The identifier of this message
+     * The created time of this commit
      *
-     * @var string
+     * @var DateTime
      */
     protected $createdAt;
 
     /**
-     * The identifier of this message
+     * The committed time of this commit
      *
-     * @var string
+     * @var DateTime
      */
     protected $committedAt;
 
+    /**
+     * Create an instance of this class that is based on specified array
+     *
+     * @param VersionControl_Git $git   An instance of the VersionControl_Git
+     * @param array              $array An array of properties of this commit
+     *
+     * @return VersionControl_Git_Object_Commit
+     */
     public static function createInstanceByArray($git, $array)
     {
-        if (!isset($array['commit']) || !$array['commit'])
-        {
+        if (!isset($array['commit']) || !$array['commit']) {
             throw new PEAR_Exception('The commit object must have id');
         }
 
         $parts = explode(' ', $array['commit'], 2);
+
         $id =  $parts[1];
+
         unset($array['commit']);
 
         $obj = new VersionControl_Git_Object_Commit($git, $id);
 
         foreach ($array as $k => $v) {
-          $method = 'set'.ucfirst($k);
+            $method = 'set'.ucfirst($k);
 
             if (is_callable(array($obj, $method))) {
                 $obj->$method($v);
@@ -108,183 +117,283 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
         return $obj;
     }
 
+    /**
+     * Set the tree object related to this commit
+     *
+     * @param string $tree A tree object
+     *
+     * @return null
+     */
     public function setTree($tree)
     {
-      $parts = explode(' ', $tree, 2);
+        $parts = explode(' ', $tree, 2);
 
-      if (2 != count($parts) || 'tree' !== $parts[0]) {
-          return false;
-      }
-
-      $this->tree = $parts[1];
-    }
-
-    public function getTree()
-    {
-      return $this->tree;
-    }
-
-    public function setParents($parent)
-    {
-      $clean = array();
-
-      foreach ((array)$parent as $v) {
-        $parts = explode(' ', $v, 2);
-        if (2 != count($parts) || 'parent' !== $parts[0]) {
+        if (2 != count($parts) || 'tree' !== $parts[0]) {
             return false;
         }
 
-        $clean[] = $parts[1];
-      }
-
-      $this->parent = $clean;
+        $this->tree = $parts[1];
     }
 
+    /**
+     * Get the tree object related to this commit
+     *
+     * @return string
+     */
+    public function getTree()
+    {
+        return $this->tree;
+    }
+
+    /**
+     * Set the parent objects related to this commit
+     *
+     * @param array $parent An array of parent objects
+     *
+     * @return null
+     */
+    public function setParents($parent)
+    {
+        $clean = array();
+
+        foreach ((array)$parent as $v) {
+            $parts = explode(' ', $v, 2);
+            if (2 != count($parts) || 'parent' !== $parts[0]) {
+                return false;
+            }
+
+            $clean[] = $parts[1];
+        }
+
+        $this->parent = $clean;
+    }
+
+    /**
+     * Check if this commit has parents or not
+     *
+     * @return bool
+     */
     public function hasParents()
     {
-      return (bool)($this->parent);
+        return (bool)($this->parent);
     }
 
+    /**
+     * Get the parent objects related to this commit
+     *
+     * @return array An array of the VersionControl_Git_Object_Commit
+     */
     public function getParents()
     {
-      if (!$this->hasParents())
-      {
-        return false;
-      }
-
-      $revlists = array();
-      foreach ($this->parent as $v) {
-        try {
-          $revlist = $this->git->getRevListFetcher()
-            ->target($v)
-            ->setOption('max-count', 1)
-            ->fetch();
-        } catch (PEAR_Exception $e) {
-          return false;
+        if (!$this->hasParents()) {
+            return false;
         }
 
-        $revlists[] = array_shift($revlist);
-      }
+        $revlists = array();
+        foreach ($this->parent as $v) {
+            try {
+                $revlist = $this->git->getRevListFetcher()
+                    ->target($v)
+                    ->setOption('max-count', 1)
+                    ->fetch();
+            } catch (PEAR_Exception $e) {
+                return false;
+            }
 
-      return $revlists;
+            $revlists[] = array_shift($revlist);
+        }
+
+        return $revlists;
     }
 
+    /**
+     * Set the author related to this commit
+     *
+     * @param string $author A name of author
+     *
+     * @return null
+     */
     public function setAuthor($author)
     {
-      $parts = explode(' ', $author, 2);
+        $parts = explode(' ', $author, 2);
 
-      if (2 != count($parts) || 'author' !== $parts[0]) {
-          return false;
-      }
+        if (2 != count($parts) || 'author' !== $parts[0]) {
+            return false;
+        }
 
-      list ($name, $date) = $this->parseUser($parts[1]);
-      $this->author = $name;
-      $this->createdAt = $date;
+        list ($name, $date) = $this->parseUser($parts[1]);
+
+        $this->author    = $name;
+        $this->createdAt = $date;
     }
 
+    /**
+     * Get the author related to this commit
+     *
+     * @return string
+     */
     public function getAuthor()
     {
-      return $this->author;
+        return $this->author;
     }
 
+    /**
+     * Get the created time of this commit
+     *
+     * @return DateTime
+     */
     public function getCreatedAt()
     {
-      return $this->createdAt;
+        return $this->createdAt;
     }
 
+    /**
+     * Set the committer related to this commit
+     *
+     * @param string $committer A name of committer
+     *
+     * @return null
+     */
     public function setCommitter($committer)
     {
-      $parts = explode(' ', $committer, 2);
+        $parts = explode(' ', $committer, 2);
 
-      if (2 != count($parts) || 'committer' !== $parts[0]) {
-          return false;
-      }
+        if (2 != count($parts) || 'committer' !== $parts[0]) {
+            return false;
+        }
 
-      list ($name, $date) = $this->parseUser($parts[1]);
-      $this->committer = $name;
-      $this->committedAt = $date;
+        list ($name, $date) = $this->parseUser($parts[1]);
+
+        $this->committer   = $name;
+        $this->committedAt = $date;
     }
 
+    /**
+     * Get the committer related to this commit
+     *
+     * @return string
+     */
     public function getCommitter()
     {
-      return $this->committer;
+        return $this->committer;
     }
 
+    /**
+     * Get the committed time of this commit
+     *
+     * @return DateTime
+     */
     public function getCommittedAt()
     {
-      return $this->committedAt;
+        return $this->committedAt;
     }
 
+    /**
+     * Set the message related to this commit
+     *
+     * @param string $message A message of this commit
+     *
+     * @return null
+     */
     public function setMessage($message)
     {
-      $this->message = $message;
+        $this->message = $message;
     }
 
+    /**
+     * Get the message related to this commit
+     *
+     * @return string
+     */
     public function getMessage()
     {
-      return $this->message;
+        return $this->message;
     }
 
+    /**
+     * Parse a string of commiter and authror line
+     *
+     * @param string $userAndTimestamp Author or commiter name with timestamp
+     *
+     * @return array
+     */
     protected function parseUser($userAndTimestamp)
     {
-      $matches = array();
-      if (preg_match('/^(.+) (\d+) .*$/', $userAndTimestamp, $matches)) {
-        return array($matches[1], new DateTime('@'.$matches[2]));
-      }
+        $matches = array();
+        if (preg_match('/^(.+) (\d+) .*$/', $userAndTimestamp, $matches)) {
+            return array($matches[1], new DateTime('@'.$matches[2]));
+        }
 
-      return array(null, null);
+        return array(null, null);
     }
 
-  public function isIncomplete()
-  {
-    return !($this->tree && $this->author && $this->committer && $this->createdAt && $this->committedAt);
-  }
-
-  public function fetch()
-  {
-    if ($this->isIncomplete())
+    /**
+     * Check if this commit has all mandatory attributes or not
+     *
+     * @return bool
+     */
+    public function isIncomplete()
     {
-        try {
-          $revlist = $this->git->getRevListFetcher()
-            ->target($this->id)
-            ->setOption('max-count', 1)
-            ->fetch();
-        } catch (PEAR_Exception $e) {
-              throw new PEAR_Exception('The object id is not valid.');
-        }
+        return !(
+            $this->tree
+            && $this->author
+            && $this->committer
+            && $this->createdAt
+            && $this->committedAt
+        );
+    }
 
-        if (!$this->tree) {
-            $this->tree = $revlist[0]->getTree();
-        }
+    /**
+     * Fetch the substance of this object
+     *
+     * If this commit object is not complete, it inserts values to short properties.
+     *
+     * @return VersionControl_Git_Object The "$this" object for method chain
+     */
+    public function fetch()
+    {
+        if ($this->isIncomplete()) {
+            try {
+                $revlist = $this->git->getRevListFetcher()
+                  ->target($this->id)
+                  ->setOption('max-count', 1)
+                  ->fetch();
+            } catch (PEAR_Exception $e) {
+                throw new PEAR_Exception('The object id is not valid.');
+            }
 
-        if (!$this->parent) {
-            $parents = $revlist[0]->getParents();
-            foreach ($parents as $parent) {
-              $this->parents[] = (string)$parent;
+            if (!$this->tree) {
+                $this->tree = $revlist[0]->getTree();
+            }
+
+            if (!$this->parent) {
+                $parents = $revlist[0]->getParents();
+                foreach ($parents as $parent) {
+                    $this->parents[] = (string)$parent;
+                }
+            }
+
+            if (!$this->author) {
+                $this->author = $revlist[0]->getAuthor();
+            }
+
+            if (!$this->committer) {
+                $this->committer = $revlist[0]->getCommitter();
+            }
+
+            if (!$this->createdAt) {
+                $this->createdAt = $revlist[0]->getCreatedAt();
+            }
+
+            if (!$this->committedAt) {
+                $this->committedAt = $revlist[0]->getCommittedAt();
+            }
+
+            if (!$this->message) {
+                $this->message = $revlist[0]->getMessage();
             }
         }
 
-        if (!$this->author) {
-            $this->author = $revlist[0]->getAuthor();
-        }
-
-        if (!$this->committer) {
-            $this->committer = $revlist[0]->getCommitter();
-        }
-
-        if (!$this->createdAt) {
-            $this->createdAt = $revlist[0]->getCreatedAt();
-        }
-
-        if (!$this->committedAt) {
-            $this->committedAt = $revlist[0]->getCommittedAt();
-        }
-
-        if (!$this->message) {
-            $this->message = $revlist[0]->getMessage();
-        }
+        return $this;
     }
-
-    return $this;
-  }
 }

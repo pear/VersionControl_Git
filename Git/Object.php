@@ -25,9 +25,7 @@
  */
 
 /**
- * The OO interface for Git
- *
- * An instance of this class can be handled as OO interface for a Git repository.
+ * The base class for the all Git objects (commit, tree, blob and tag(unsupported))
  *
  * @category  VersionControl
  * @package   VersionControl_Git
@@ -37,19 +35,43 @@
  */
 abstract class VersionControl_Git_Object extends VersionControl_Git_Component
 {
-  public $id;
+    /**
+     * The identifier of this object
+     *
+     * @var string
+     */
+    public $id;
 
-  public function __construct(VersionControl_Git $git, $id = null)
-  {
-    parent::__construct($git);
+    /**
+     * Constructor
+     *
+     * @param VersionControl_Git $git An instance of the VersionControl_Git
+     * @param string             $id  An identifier of this object
+     */
+    public function __construct(VersionControl_Git $git, $id = null)
+    {
+        parent::__construct($git);
 
-    $this->id = $id;
-  }
+        $this->id = $id;
+    }
 
-  abstract public function fetch();
+    /**
+     * Fetch the substance of this object
+     *
+     * Object has contents in the Git repository. But it might be large, so
+     * script should fetch contents by calling this method only when necessary.
+     *
+     * @return VersionControl_Git_Object The "$this" object for method chain
+     */
+    abstract public function fetch();
 
-  public function __toString()
-  {
-    return $this->id;
-  }
+    /**
+     * Get a value of this instance as string
+     *
+     * @return string The identifier of this object
+     */
+    public function __toString()
+    {
+        return $this->id;
+    }
 }

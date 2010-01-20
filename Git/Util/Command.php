@@ -25,7 +25,7 @@
  */
 
 /**
- * The class represents Git rev-list
+ * The OO interface for executing Git command
  *
  * @category  VersionControl
  * @package   VersionControl_Git
@@ -35,113 +35,199 @@
  */
 class VersionControl_Git_Util_Command extends VersionControl_Git_Component
 {
-  protected $subCommand = '';
+    /**
+     * The subcommand name
+     *
+     * @var string
+     */
+    protected $subCommand = '';
 
-  protected $arguments = array();
+    /**
+     * An array of arguments
+     *
+     * @var array
+     */
+    protected $arguments = array();
 
-  protected $options = array();
+    /**
+     * An array of options
+     *
+     * @var array
+     */
+    protected $options = array();
 
-  protected $doubleDash = false;
+    /**
+     * Flag to add "--" before the end of command
+     *
+     * If this is true, command is executed with "--".
+     * It is need by some Git command for understanding the specified
+     * object is not a path.
+     *
+     * @var bool
+     */
+    protected $doubleDash = false;
 
-  public function setSubCommand($command)
-  {
-    $this->subCommand = $command;
+    /**
+     * Set the subcommand name
+     *
+     * @param string $command The subcommand name
+     *
+     * @return VersionControl_Git_Util_Command The "$this" object for method chain
+     */
+    public function setSubCommand($command)
+    {
+        $this->subCommand = $command;
 
-    return $this;
-  }
-
-  public function setOptions($options)
-  {
-    $this->options = $options;
-
-    return $this;
-  }
-
-  public function setArguments($arguments)
-  {
-    $this->arguments = array_values($arguments);
-
-    return $this;
-  }
-
-  public function setOption($name, $value = true)
-  {
-    $this->options[$name] = $value;
-
-    return $this;
-  }
-
-  public function addArgument($value)
-  {
-    $this->arguments[] = $value;
-
-    return $this;
-  }
-
-  public function addDoubleDash($isAdding)
-  {
-    $this->doubleDash = $isAdding;
-
-    return $this;
-  }
-
-  protected function createCommandString($arguments = array(), $options = array())
-  {
-    if (!$this->subCommand) {
-      throw new PEAR_Exception('You must specified "subCommand"');
+        return $this;
     }
 
-    $command = $this->git->getGitCommandPath().' '.$this->subCommand;
+    /**
+     * Set the options
+     *
+     * @param array $options An array of new options
+     *
+     * @return VersionControl_Git_Util_Command The "$this" object for method chain
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
 
-    $arguments = array_merge($this->arguments, $arguments);
-    $options = array_merge($this->options, $options);
-
-    foreach ($options as $k => $v) {
-      if (false === $v) {
-        continue;
-      }
-
-      if (1 === strlen($k)) {
-        $command .= ' -'.$k;
-      } else {
-        $command .= ' --'.$k;
-      }
-
-      if (true !== $v) {
-        $command .= '='.escapeshellarg($v);
-      }
+        return $this;
     }
 
-    foreach ($arguments as $v) {
-      $command .= ' '.escapeshellarg($v);
+    /**
+     * Set the arguments
+     *
+     * @param array $arguments An array of new arguments
+     *
+     * @return VersionControl_Git_Util_Command The "$this" object for method chain
+     */
+    public function setArguments($arguments)
+    {
+        $this->arguments = array_values($arguments);
+
+        return $this;
     }
 
-    if ($this->doubleDash) {
-      $command .= ' --';
+    /**
+     * Set a option
+     *
+     * @param string      $name  A name of option
+     * @param string|bool $value A value of option. If it is "true", this option
+     *                           doesn't have a value. If it is "false", this option
+     *                           will be not used
+     *
+     * @return VersionControl_Git_Util_Command The "$this" object for method chain
+     */
+    public function setOption($name, $value = true)
+    {
+        $this->options[$name] = $value;
+
+        return $this;
     }
 
-    return $command;
-  }
+    /**
+     * Add an argument
+     *
+     * @param string $value A value of argument
+     *
+     * @return VersionControl_Git_Util_Command The "$this" object for method chain
+     */
+    public function addArgument($value)
+    {
+        $this->arguments[] = $value;
 
-  public function execute($arguments = array(), $options = array())
-  {
-    $command = $this->createCommandString($arguments, $options);
-
-    $currentDir = getcwd();
-    chdir($this->git->getDirectory());
-
-    $outputFile = tempnam(sys_get_temp_dir(), 'VCG');
-
-    $status = trim(shell_exec($command.' > '.$outputFile.'; echo $?'));
-    $result = file_get_contents($outputFile);
-    unlink($outputFile);
-
-    chdir($currentDir);
-
-    if ($status) {
-      throw new PEAR_Exception('Some errors in executing git command: '.$result);
+        return $this;
     }
 
-    return $result;
-  }
+    /**
+     * Add / Remove a double-dash
+     *
+     * @param string $isAdding Whether to add double-dash
+     *
+     * @return VersionControl_Git_Util_Command The "$this" object for method chain
+     */
+    public function addDoubleDash($isAdding)
+    {
+        $this->doubleDash = $isAdding;
+
+        return $this;
+    }
+
+    /**
+     * Create a command string to execute
+     *
+     * @param array $arguments An array of arguments
+     * @param array $options   An array of options
+     *
+     * @return string
+     */
+    protected function createCommandString($arguments = array(), $options = array())
+    {
+        if (!$this->subCommand) {
+            throw new PEAR_Exception('You must specified "subCommand"');
+        }
+
+        $command = $this->git->getGitCommandPath().' '.$this->subCommand;
+
+        $arguments = array_merge($this->arguments, $arguments);
+        $options   = array_merge($this->options, $options);
+
+        foreach ($options as $k => $v) {
+            if (false === $v) {
+                continue;
+            }
+
+            if (1 === strlen($k)) {
+                $command .= ' -'.$k;
+            } else {
+                $command .= ' --'.$k;
+            }
+
+            if (true !== $v) {
+                $command .= '='.escapeshellarg($v);
+            }
+        }
+
+        foreach ($arguments as $v) {
+            $command .= ' '.escapeshellarg($v);
+        }
+
+        if ($this->doubleDash) {
+            $command .= ' --';
+        }
+
+        return $command;
+    }
+
+    /**
+     * Execute a created command and get result
+     *
+     * @param array $arguments An array of arguments
+     * @param array $options   An array of options
+     *
+     * @return string
+     */
+    public function execute($arguments = array(), $options = array())
+    {
+        $command = $this->createCommandString($arguments, $options);
+
+        $currentDir = getcwd();
+        chdir($this->git->getDirectory());
+
+        $outputFile = tempnam(sys_get_temp_dir(), 'VCG');
+
+        $status = trim(shell_exec($command.' > '.$outputFile.'; echo $?'));
+        $result = file_get_contents($outputFile);
+        unlink($outputFile);
+
+        chdir($currentDir);
+
+        if ($status) {
+            $message = 'Some errors in executing git command: '.$result;
+            throw new PEAR_Exception($message);
+        }
+
+        return $result;
+    }
 }
