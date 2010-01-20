@@ -86,7 +86,7 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
     {
         if (!isset($array['commit']) || !$array['commit'])
         {
-            throw new Exception('The commit object must have id');
+            throw new PEAR_Exception('The commit object must have id');
         }
 
         $parts = explode(' ', $array['commit'], 2);
@@ -124,15 +124,18 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
 
     public function setParents($parent)
     {
-      $parent = (array)$parent;
+      $clean = array();
 
-      $parts = explode(' ', array_shift($parent), 2);
+      foreach ((array)$parent as $v) {
+        $parts = explode(' ', $v, 2);
+        if (2 != count($parts) || 'parent' !== $parts[0]) {
+            return false;
+        }
 
-      if (2 != count($parts) || 'parent' !== $parts[0]) {
-          return false;
+        $clean[] = $parts[1];
       }
 
-      $this->parent = $parts[1];
+      $this->parent = $clean;
     }
 
     public function hasParents()
@@ -147,17 +150,22 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
         return false;
       }
 
-      $revlist = $this->git->getRevListFetcher()
-        ->target($this->parent)
-        ->setOption('max-count', 1)
-        ->fetch();
+      $revlists = array();
+      foreach ($this->parent as $v) {
+        $revlist = $this->git->getRevListFetcher()
+          ->target($v)
+          ->setOption('max-count', 1)
+          ->fetch();
 
-      if (!$revlist)
-      {
-        return false;
+        if (!$revlist)
+        {
+          return false;
+        }
+
+        $revlists[] = array_shift($revlist);
       }
 
-      return $revlist[1];
+      return $revlists;
     }
 
     public function setAuthor($author)
