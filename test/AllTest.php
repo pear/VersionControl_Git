@@ -8,6 +8,7 @@ require_once 'PHPUnit/Framework.php';
 require_once './VersionControl_GitTest.php';
 require_once './VersionControl_Git_ComponentTest.php';
 require_once './VersionControl_Git_ObjectTest.php';
+require_once './VersionControl_Git_Util_CommandTest.php';
 
 class AllTest
 {
@@ -18,6 +19,7 @@ class AllTest
     $suite->addTestSuite('VersionControl_GitTest');
     $suite->addTestSuite('VersionControl_Git_ComponentTest');
     $suite->addTestSuite('VersionControl_Git_ObjectTest');
+    $suite->addTestSuite('VersionControl_Git_Util_CommandTest');
 
     return $suite;
   }
