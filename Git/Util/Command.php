@@ -83,7 +83,7 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
     return $this;
   }
 
-  public function execute($arguments = array(), $options = array())
+  protected function createCommandString($arguments = array(), $options = array())
   {
     if (!$this->subCommand) {
       throw new PEAR_Exception('You must specified "subCommand"');
@@ -117,6 +117,13 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
     if ($this->doubleDash) {
       $command .= ' --';
     }
+
+    return $command;
+  }
+
+  public function execute($arguments = array(), $options = array())
+  {
+    $command = $this->createCommandString($arguments, $options);
 
     $currentDir = getcwd();
     chdir($this->git->getDirectory());
