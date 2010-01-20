@@ -9,6 +9,8 @@ require_once './VersionControl_GitTest.php';
 require_once './VersionControl_Git_ComponentTest.php';
 require_once './VersionControl_Git_ObjectTest.php';
 require_once './VersionControl_Git_Util_CommandTest.php';
+require_once './VersionControl_Git_Object_BlobTest.php';
+require_once './VersionControl_Git_Object_TreeTest.php';
 
 class AllTest
 {
@@ -20,6 +22,8 @@ class AllTest
     $suite->addTestSuite('VersionControl_Git_ComponentTest');
     $suite->addTestSuite('VersionControl_Git_ObjectTest');
     $suite->addTestSuite('VersionControl_Git_Util_CommandTest');
+    $suite->addTestSuite('VersionControl_Git_Object_BlobTest');
+    $suite->addTestSuite('VersionControl_Git_Object_TreeTest');
 
     return $suite;
   }
