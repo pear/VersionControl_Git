@@ -55,11 +55,11 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
     protected $author;
 
     /**
-     * The identifier of this commiter
+     * The identifier of this committer
      *
      * @var string
      */
-    protected $commiter;
+    protected $committer;
 
     /**
      * The identifier of this message
@@ -80,7 +80,7 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
      *
      * @var string
      */
-    protected $commitedAt;
+    protected $committedAt;
 
     public static function createInstanceByArray($git, $array)
     {
@@ -152,13 +152,12 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
 
       $revlists = array();
       foreach ($this->parent as $v) {
-        $revlist = $this->git->getRevListFetcher()
-          ->target($v)
-          ->setOption('max-count', 1)
-          ->fetch();
-
-        if (!$revlist)
-        {
+        try {
+          $revlist = $this->git->getRevListFetcher()
+            ->target($v)
+            ->setOption('max-count', 1)
+            ->fetch();
+        } catch (PEAR_Exception $e) {
           return false;
         }
 
@@ -191,27 +190,27 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
       return $this->createdAt;
     }
 
-    public function setCommiter($commiter)
+    public function setCommitter($committer)
     {
-      $parts = explode(' ', $commiter, 2);
+      $parts = explode(' ', $committer, 2);
 
-      if (2 != count($parts) || 'commiter' !== $parts[0]) {
+      if (2 != count($parts) || 'committer' !== $parts[0]) {
           return false;
       }
 
       list ($name, $date) = $this->parseUser($parts[1]);
-      $this->commiter = $name;
-      $this->commitedAt = $date;
+      $this->committer = $name;
+      $this->committedAt = $date;
     }
 
-    public function getCommiter()
+    public function getCommitter()
     {
-      return $this->commiter;
+      return $this->committer;
     }
 
-    public function getCommitedAt()
+    public function getCommittedAt()
     {
-      return $this->commitedAt;
+      return $this->committedAt;
     }
 
     public function setMessage($message)
@@ -234,9 +233,55 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
       return array(null, null);
     }
 
+  public function isIncomplete()
+  {
+    return !($this->tree && $this->author && $this->committer && $this->createdAt && $this->committedAt);
+  }
+
   public function fetch()
   {
-    // TODO: If the class is not entirety, this method inserts values to some properties
+    if ($this->isIncomplete())
+    {
+        try {
+          $revlist = $this->git->getRevListFetcher()
+            ->target($this->id)
+            ->setOption('max-count', 1)
+            ->fetch();
+        } catch (PEAR_Exception $e) {
+              throw new PEAR_Exception('The object id is not valid.');
+        }
+
+        if (!$this->tree) {
+            $this->tree = $revlist[0]->getTree();
+        }
+
+        if (!$this->parent) {
+            $parents = $revlist[0]->getParents();
+            foreach ($parents as $parent) {
+              $this->parents[] = (string)$parent;
+            }
+        }
+
+        if (!$this->author) {
+            $this->author = $revlist[0]->getAuthor();
+        }
+
+        if (!$this->committer) {
+            $this->committer = $revlist[0]->getCommitter();
+        }
+
+        if (!$this->createdAt) {
+            $this->createdAt = $revlist[0]->getCreatedAt();
+        }
+
+        if (!$this->committedAt) {
+            $this->committedAt = $revlist[0]->getCommittedAt();
+        }
+
+        if (!$this->message) {
+            $this->message = $revlist[0]->getMessage();
+        }
+    }
 
     return $this;
   }

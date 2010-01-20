@@ -76,6 +76,9 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
     $this->assertFalse($instance->getParents());
 
+    $instance->setParents(array('parent ddf8aa7e97a206847658c90a26fe740b2e17231a', 'invalid'));
+    $this->assertFalse($instance->getParents());
+
     $instance->setParents(array('parent ddf8aa7e97a206847658c90a26fe740b2e17231a', 'parent ddf8aa7e97a206847658c90a26fe740b2e17231a'));
     $parents = $instance->getParents();
     $this->assertEquals((string)$parents[0], 'ddf8aa7e97a206847658c90a26fe740b2e17231a');
@@ -99,6 +102,9 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
     $instance->setAuthor('author Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900');
 
     $this->assertEquals($instance->getAuthor(), 'Kousuke Ebihara <ebihara@tejimaya.com>');
+
+    $instance->setAuthor('author Kousuke Ebihara <ebihara@tejimaya.com>');
+    $this->assertNull($instance->getAuthor());
   }
 
   public function testGetCreatedAt()
@@ -108,33 +114,42 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
     $instance->setAuthor('author Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900');
 
     $this->assertEquals($instance->getCreatedAt()->format('YmdHis'), '20100120161001');
+
+    $instance->setAuthor('author Kousuke Ebihara <ebihara@tejimaya.com>');
+    $this->assertNull($instance->getCreatedAt());
   }
 
-  public function testSetCommiter()
+  public function testSetCommitter()
   {
     $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
 
-    $this->assertFalse($instance->setCommiter('Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900'));
-    $this->assertNull($instance->setCommiter('commiter Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900'));
+    $this->assertFalse($instance->setCommitter('Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900'));
+    $this->assertNull($instance->setCommitter('committer Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900'));
   }
 
-  public function testGetCommiter()
+  public function testGetCommitter()
   {
     $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
-    $instance->setCommiter('commiter Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900');
+    $instance->setCommitter('committer Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900');
 
-    $this->assertEquals($instance->getCommiter(), 'Kousuke Ebihara <ebihara@tejimaya.com>');
+    $this->assertEquals($instance->getCommitter(), 'Kousuke Ebihara <ebihara@tejimaya.com>');
+
+    $instance->setCommitter('committer Kousuke Ebihara <ebihara@tejimaya.com>');
+    $this->assertNull($instance->getCommitter());
   }
 
-  public function testGetCommitedAt()
+  public function testGetCommittedAt()
   {
     $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
-    $instance->setCommiter('commiter Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900');
+    $instance->setCommitter('committer Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900');
 
-    $this->assertEquals($instance->getCommitedAt()->format('YmdHis'), '20100120161001');
+    $this->assertEquals($instance->getCommittedAt()->format('YmdHis'), '20100120161001');
+
+    $instance->setCommitter('committer Kousuke Ebihara <ebihara@tejimaya.com>');
+    $this->assertNull($instance->getCommittedAt());
   }
 
   public function testSetMessage()
@@ -144,6 +159,30 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
     $instance->setMessage('message');
     $this->assertEquals($instance->getMessage(), 'message');
+  }
+
+  public function testFetchException()
+  {
+    $this->setExpectedException('PEAR_Exception');
+
+    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $instance = new VersionControl_Git_Object_Commit($git, 'invalid');
+    $instance->fetch();
+  }
+
+  public function testFetch()
+  {
+    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
+    $instance->fetch();
+
+    $this->assertEquals($instance->getTree(), 'cca66138995a95b45a725e8727ee97a20a816d41');
+    $this->assertFalse($instance->hasParents());
+    $this->assertEquals($instance->getAuthor(), 'Kousuke Ebihara <ebihara@tejimaya.com>');
+    $this->assertEquals($instance->getCreatedAt()->format('YmdHis'), '20100120161001');
+    $this->assertEquals($instance->getCommitter(), 'Kousuke Ebihara <ebihara@tejimaya.com>');
+    $this->assertEquals($instance->getCommittedAt()->format('YmdHis'), '20100120161001');
+    $this->assertEquals($instance->getMessage(), 'added directories and files');
   }
 
   protected function getCreatedInstance()

@@ -84,7 +84,7 @@ class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Util_Com
             }
 
             $author = array_shift($lines);
-            $commiter = array_shift($lines);
+            $committer = array_shift($lines);
 
             $message = array();
             array_shift($lines);
@@ -98,7 +98,7 @@ class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Util_Com
                 'tree' => $tree,
                 'parents' => $parents,
                 'author' => $author,
-                'commiter' => $commiter,
+                'committer' => $committer,
                 'message' => implode("\n", $message),
             ));
         }
