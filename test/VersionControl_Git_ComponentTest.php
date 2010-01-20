@@ -10,7 +10,7 @@ class DummyGitComponent extends VersionControl_Git_Component
 {
 }
 
-class VersionControl_GitTest extends PHPUnit_Framework_TestCase
+class VersionControl_Git_ComponentTest extends PHPUnit_Framework_TestCase
 {
   public function testConstruct()
   {
