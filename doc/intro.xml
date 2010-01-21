@@ -1,0 +1,16 @@
+<refentry xml:id="package.versioncontrol.versioncontrol-git.intro">
+  <refnamediv>
+    <refname>Introduction</refname>
+    <refpurpose>Introduction to VersionControl_Git</refpurpose>
+  </refnamediv>
+
+  <refsection xml:id="package.versioncontrol.versioncontrol-git.intro.overview">
+    <info>
+      <title>Overview</title>
+    </info>
+
+    <para>VersionControl_Git is a library that provides OO interface to handle Git repository.</para>
+    <para>You can use Git command via the wrapper class. Some features are provided by high-featured interface.</para>
+
+  </refsection>
+</refentry>
