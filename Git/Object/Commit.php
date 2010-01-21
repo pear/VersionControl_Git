@@ -71,16 +71,16 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
     protected $message;
 
     /**
-     * The created time of this commit
+     * The created time of this commit (timestamp)
      *
-     * @var DateTime
+     * @var int
      */
     protected $createdAt;
 
     /**
-     * The committed time of this commit
+     * The committed time of this commit (timestamp)
      *
-     * @var DateTime
+     * @var int
      */
     protected $committedAt;
 
@@ -240,7 +240,7 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
     /**
      * Get the created time of this commit
      *
-     * @return DateTime
+     * @return int
      */
     public function getCreatedAt()
     {
@@ -281,7 +281,7 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
     /**
      * Get the committed time of this commit
      *
-     * @return DateTime
+     * @return int
      */
     public function getCommittedAt()
     {
@@ -321,7 +321,7 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
     {
         $matches = array();
         if (preg_match('/^(.+) (\d+) .*$/', $userAndTimestamp, $matches)) {
-            return array($matches[1], new DateTime('@'.$matches[2]));
+            return array($matches[1], $matches[2]);
         }
 
         return array(null, null);

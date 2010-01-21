@@ -24,6 +24,6 @@ class VersionControl_Git_ComponentTest extends PHPUnit_Framework_TestCase
   {
     $this->setExpectedException('PHPUnit_Framework_Error');
 
-    $instance = new DummyGitComponent(new DateTime());
+    $instance = new DummyGitComponent(new stdClass());
   }
 }
