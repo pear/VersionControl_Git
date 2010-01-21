@@ -1,7 +1,7 @@
 <?php
 
 chdir(dirname(__FILE__));
-set_include_path(get_include_path().PATH_SEPARATOR.realpath('../../'));
+set_include_path(get_include_path().PATH_SEPARATOR.realpath('../'));
 
 require_once 'PHPUnit/Framework.php';
 
