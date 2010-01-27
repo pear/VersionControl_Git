@@ -39,7 +39,7 @@ class VersionControl_Git_Object_TreeTest extends PHPUnit_Framework_TestCase
 
   public function testSeekException()
   {
-    $this->setExpectedException('PEAR_Exception');
+    $this->setExpectedException('VersionControl_Git_Exception');
 
     $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Tree($git, 'cd0762280ad2e733b9c9bb7992600d809b3ec261');

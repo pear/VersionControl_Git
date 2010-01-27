@@ -25,6 +25,7 @@
  */
 
 require_once 'PEAR/Exception.php';
+require_once 'VersionControl/Git/Exception.php';
 
 require_once 'VersionControl/Git/Component.php';
 
@@ -72,7 +73,7 @@ class VersionControl_Git
     {
         if (!is_dir($reposDir)) {
             $message = 'You must specified readable directory as repository.';
-            throw new PEAR_Exception($message);
+            throw new VersionControl_Git_Exception($message);
         }
 
         $this->directory = $reposDir;

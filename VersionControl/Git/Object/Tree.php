@@ -98,7 +98,7 @@ class VersionControl_Git_Object_Tree extends VersionControl_Git_Object implement
         $this->position = $position;
 
         if (!$this->valid()) {
-            throw new PEAR_Exception('Invalid offset is specified');
+            throw new VersionControl_Git_Exception('Invalid offset is specified');
         }
     }
 

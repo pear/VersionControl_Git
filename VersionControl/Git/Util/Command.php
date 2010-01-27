@@ -165,7 +165,7 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
     protected function createCommandString($arguments = array(), $options = array())
     {
         if (!$this->subCommand) {
-            throw new PEAR_Exception('You must specified "subCommand"');
+            throw new VersionControl_Git_Exception('You must specified "subCommand"');
         }
 
         $command = $this->git->getGitCommandPath().' '.$this->subCommand;
@@ -225,7 +225,7 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
 
         if ($status) {
             $message = 'Some errors in executing git command: '.$result;
-            throw new PEAR_Exception($message);
+            throw new VersionControl_Git_Exception($message);
         }
 
         return $result;

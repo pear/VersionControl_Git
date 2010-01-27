@@ -114,7 +114,7 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
 
   public function testCreateCommandStringException()
   {
-    $this->setExpectedException('PEAR_Exception');
+    $this->setExpectedException('VersionControl_Git_Exception');
 
     $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
     $instance = new DummyGitCommand($git);
@@ -161,7 +161,7 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
 
   public function testExecuteException()
   {
-    $this->setExpectedException('PEAR_Exception');
+    $this->setExpectedException('VersionControl_Git_Exception');
 
     $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
     $i1 = new DummyGitCommand($git);

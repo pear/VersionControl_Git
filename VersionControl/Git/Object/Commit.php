@@ -95,7 +95,7 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
     public static function createInstanceByArray($git, $array)
     {
         if (!isset($array['commit']) || !$array['commit']) {
-            throw new PEAR_Exception('The commit object must have id');
+            throw new VersionControl_Git_Exception('The commit object must have id');
         }
 
         $parts = explode(' ', $array['commit'], 2);
@@ -196,7 +196,7 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
                     ->target($v)
                     ->setOption('max-count', 1)
                     ->fetch();
-            } catch (PEAR_Exception $e) {
+            } catch (VersionControl_Git_Exception $e) {
                 return false;
             }
 
@@ -358,8 +358,8 @@ class VersionControl_Git_Object_Commit extends VersionControl_Git_Object
                   ->target($this->id)
                   ->setOption('max-count', 1)
                   ->fetch();
-            } catch (PEAR_Exception $e) {
-                throw new PEAR_Exception('The object id is not valid.');
+            } catch (VersionControl_Git_Exception $e) {
+                throw new VersionControl_Git_Exception('The object id is not valid.');
             }
 
             if (!$this->tree) {

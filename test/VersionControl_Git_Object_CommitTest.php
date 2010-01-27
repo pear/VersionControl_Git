@@ -18,7 +18,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
   public function testCreateInstanceByArrayException()
   {
-    $this->setExpectedException('PEAR_Exception');
+    $this->setExpectedException('VersionControl_Git_Exception');
 
     $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
     VersionControl_Git_Object_Commit::createInstanceByArray($git, array());
@@ -163,7 +163,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
   public function testFetchException()
   {
-    $this->setExpectedException('PEAR_Exception');
+    $this->setExpectedException('VersionControl_Git_Exception');
 
     $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, 'invalid');

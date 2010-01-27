@@ -10,7 +10,7 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
 {
   public function testConstructException()
   {
-    $this->setExpectedException('PEAR_Exception');
+    $this->setExpectedException('VersionControl_Git_Exception');
 
     new VersionControl_Git('!This is not valid direcotry!');
   }
