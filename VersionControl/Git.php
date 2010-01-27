@@ -117,16 +117,23 @@ class VersionControl_Git
      *
      * @param string $repository The path to repository
      * @param bool   $isBare     Whether to create bare clone
+     * @param string $directory  The path to new repository
      *
      * @return null
      */
-    public function createClone($repository, $isBare = false)
+    public function createClone($repository, $isBare = false, $directory = null)
     {
-        $this->getCommand('clone')
+        $command = $this->getCommand('clone')
             ->setOption('bare', $isBare)
             ->setOption('q')
-            ->addArgument($repository)
-            ->execute();
+            ->addArgument($repository);
+
+        if (null !== $directory) {
+            $command->addArgument($directory);
+        }
+        $command->execute();
+
+        $this->directory = $directory;
     }
 
     /**
