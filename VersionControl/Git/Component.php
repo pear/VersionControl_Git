@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2009 Kousuke Ebihara
+ * Copyright 2010 Kousuke Ebihara
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * @category  VersionControl
  * @package   VersionControl_Git
  * @author    Kousuke Ebihara <kousuke@co3k.org>
- * @copyright 2009 Kousuke Ebihara
+ * @copyright 2010 Kousuke Ebihara
  * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  */
 
@@ -33,7 +33,7 @@
  * @category  VersionControl
  * @package   VersionControl_Git
  * @author    Kousuke Ebihara <kousuke@co3k.org>
- * @copyright 2009 Kousuke Ebihara
+ * @copyright 2010 Kousuke Ebihara
  * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  */
 abstract class VersionControl_Git_Component
