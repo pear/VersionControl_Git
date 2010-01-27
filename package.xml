@@ -58,6 +58,22 @@
         </dir>
         <file name="Git.php" role="php" />
       </dir>
+      <dir name="doc">
+        <file name="intro.xml" role="doc" />
+        <file name="tutorial.xml" role="doc" />
+      </dir>
+      <dir name="test">
+        <file name="AllTest.php" role="test" />
+        <file name="VersionControl_GitTest.php" role="test" />
+        <file name="VersionControl_Git_ObjectTest.php" role="test" />
+        <file name="VersionControl_Git_Object_CommitTest.php" role="test" />
+        <file name="VersionControl_Git_Util_CommandTest.php" role="test" />
+        <file name="fixtures.tar.gz" role="test" />
+        <file name="README" role="test" />
+        <file name="VersionControl_Git_ComponentTest.php" role="test" />
+        <file name="VersionControl_Git_Object_BlobTest.php" role="test" />
+        <file name="VersionControl_Git_Object_TreeTest.php" role="test" />
+      </dir>
     </dir>
   </contents>
 
