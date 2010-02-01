@@ -165,7 +165,7 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
     protected function createCommandString($arguments = array(), $options = array())
     {
         if (!$this->subCommand) {
-            throw new VersionControl_Git_Exception('You must specified "subCommand"');
+            throw new VersionControl_Git_Exception('You must specify "subCommand"');
         }
 
         $command = $this->git->getGitCommandPath().' '.$this->subCommand;
