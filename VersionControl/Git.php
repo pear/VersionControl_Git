@@ -145,12 +145,26 @@ class VersionControl_Git
      *
      * @return null
      */
-    public function initialRepository($isBare = false)
+    public function initRepository($isBare = false)
     {
         $this->getCommand('init')
             ->setOption('bare', $isBare)
             ->setOption('q')
             ->execute();
+    }
+
+    /**
+     * Alias of VersionControl_Git::initRepository()
+     *
+     * This method is available for backward compatibility.
+     *
+     * @param bool $isBare Whether to create bare clone
+     *
+     * @return null
+     */
+    public function initialRepository($isBare = false)
+    {
+        $this->initRepository($isBare);
     }
 
     /**

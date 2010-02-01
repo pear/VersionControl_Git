@@ -64,6 +64,21 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
     $this->removeDirectory($dirname);
   }
 
+  public function testInitRepository()
+  {
+    $dirname = $this->generateTmpDir();
+    $instance = new VersionControl_Git($dirname);
+    $instance->initRepository();
+    $this->assertTrue(is_dir($dirname.DIRECTORY_SEPARATOR.'.git'));
+    $this->removeDirectory($dirname);
+
+    $dirname = $this->generateTmpDir();
+    $instance = new VersionControl_Git($dirname);
+    $instance->initRepository(true);
+    $this->assertTrue(is_file($dirname.DIRECTORY_SEPARATOR.'HEAD'));
+    $this->removeDirectory($dirname);
+  }
+
   public function testInitialRepository()
   {
     $dirname = $this->generateTmpDir();
