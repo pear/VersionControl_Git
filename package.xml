@@ -70,7 +70,6 @@
         <file name="VersionControl_Git_ObjectTest.php" role="test" />
         <file name="VersionControl_Git_Object_CommitTest.php" role="test" />
         <file name="VersionControl_Git_Util_CommandTest.php" role="test" />
-        <file name="fixtures.tar.gz" role="test" />
         <file name="README" role="test" />
         <file name="VersionControl_Git_ComponentTest.php" role="test" />
         <file name="VersionControl_Git_Object_BlobTest.php" role="test" />

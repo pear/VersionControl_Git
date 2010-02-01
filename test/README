@@ -1,1 +1,3 @@
-before executing unit test, expand fixtures.tar.gz
+Before executing unit test, expand fixtures.tar.gz.
+
+If you get this library as PEAR package, you don't have fixtures.tar.gz. Please download it from http://github.com/ebihara/VersionControl_Git/raw/v0.4.2/test/fixtures.tar.gz
