@@ -22,11 +22,11 @@
     <active>yes</active>
   </lead>
 
-  <date>2010-01-29</date>
+  <date>2010-02-06</date>
 
   <version>
-    <release>0.4.1</release>
-    <api>0.4.1</api>
+    <release>0.4.2</release>
+    <api>0.4.2</api>
   </version>
 
   <stability>
@@ -37,9 +37,9 @@
   <license>Apache License</license>
 
   <notes>
-    - VersionControl_Git::createClone() now changes directory to new repository (http://github.com/ebihara/VersionControl_Git/issues/closed#issue/1)
-    - Added package-level exception (fixed in http://github.com/ebihara/VersionControl_Git/issues/closed#issue/2)
-    - Fixed years in copyright notices that are wrong (fixed in http://github.com/ebihara/VersionControl_Git/issues/closed#issue/3)
+    - Fixed a sentence of comment in the Git/Util/Command.php is not valid English (http://github.com/ebihara/VersionControl_Git/issues/closed#issue/4)
+    - Rename Git::initialRepository() to Git::initRepository(). For backward compatibility reason, Git::initialRepository() is now alias of Git::initRepository() (http://github.com/ebihara/VersionControl_Git/issues/closed#issue/5)
+    - Removed fixtures.tar.gz from packaged version (http://github.com/ebihara/VersionControl_Git/issues/closed#issue/6, http://github.com/ebihara/VersionControl_Git/issues/closed#issue/7)
   </notes>
 
   <contents>
@@ -57,6 +57,7 @@
           </dir>
           <file name="Component.php" role="php" />
           <file name="Object.php" role="php" />
+          <file name="Exception.php" role="php" />
         </dir>
         <file name="Git.php" role="php" />
       </dir>
@@ -66,6 +67,7 @@
       </dir>
       <dir name="test">
         <file name="AllTest.php" role="test" />
+        <file name="checkFixtures.php" role="test" />
         <file name="VersionControl_GitTest.php" role="test" />
         <file name="VersionControl_Git_ObjectTest.php" role="test" />
         <file name="VersionControl_Git_Object_CommitTest.php" role="test" />
@@ -93,46 +95,65 @@
 
   <changelog>
     <release>
+      <date>2010-02-06</date>
+
       <version>
-        <date>2010-01-29</date>
-
-        <version>
-          <release>0.4.1</release>
-          <api>0.4.1</api>
-        </version>
-
-        <stability>
-          <release>alpha</release>
-          <api>alpha</api>
-        </stability>
-
-        <license>Apache License</license>
-
-        <notes>
-          - VersionControl_Git::createClone() now changes directory to new repository (http://github.com/ebihara/VersionControl_Git/issues/closed#issue/1)
-          - Added package-level exception (fixed in http://github.com/ebihara/VersionControl_Git/issues/closed#issue/2)
-          - Fixed years in copyright notices that are wrong (fixed in http://github.com/ebihara/VersionControl_Git/issues/closed#issue/3)
-        </notes>
+        <release>0.4.2</release>
+        <api>0.4.2</api>
       </version>
+
+      <stability>
+        <release>alpha</release>
+        <api>alpha</api>
+      </stability>
+
+      <license>Apache License</license>
+
+      <notes>
+        - Fixed a sentence of comment in the Git/Util/Command.php is not valid English (http://github.com/ebihara/VersionControl_Git/issues/closed#issue/4)
+        - Rename Git::initialRepository() to Git::initRepository(). For backward compatibility reason, Git::initialRepository() is now alias of Git::initRepository() (http://github.com/ebihara/VersionControl_Git/issues/closed#issue/5)
+        - Removed fixtures.tar.gz from packaged version (http://github.com/ebihara/VersionControl_Git/issues/closed#issue/6, http://github.com/ebihara/VersionControl_Git/issues/closed#issue/7)
+      </notes>
+    </release>
+    <release>
+      <date>2010-01-29</date>
+
       <version>
-        <date>2010-01-22</date>
-
-        <version>
-          <release>0.4.0</release>
-          <api>0.4.0</api>
-        </version>
-
-        <stability>
-          <release>alpha</release>
-          <api>alpha</api>
-        </stability>
-
-        <license>Apache License</license>
-
-        <notes>
-          Initial release.
-        </notes>
+        <release>0.4.1</release>
+        <api>0.4.1</api>
       </version>
+
+      <stability>
+        <release>alpha</release>
+        <api>alpha</api>
+      </stability>
+
+      <license>Apache License</license>
+
+      <notes>
+        - VersionControl_Git::createClone() now changes directory to new repository (http://github.com/ebihara/VersionControl_Git/issues/closed#issue/1)
+        - Added package-level exception (fixed in http://github.com/ebihara/VersionControl_Git/issues/closed#issue/2)
+        - Fixed years in copyright notices that are wrong (fixed in http://github.com/ebihara/VersionControl_Git/issues/closed#issue/3)
+      </notes>
+    </release>
+    <release>
+      <date>2010-01-22</date>
+
+      <version>
+        <release>0.4.0</release>
+        <api>0.4.0</api>
+      </version>
+
+      <stability>
+        <release>alpha</release>
+        <api>alpha</api>
+      </stability>
+
+      <license>Apache License</license>
+
+      <notes>
+        Initial release.
+      </notes>
     </release>
   </changelog>
 </package>
