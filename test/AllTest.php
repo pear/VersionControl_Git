@@ -7,6 +7,8 @@ require_once 'PHPUnit/Framework.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
+require_once './checkFixtures.php';
+
 require_once './VersionControl_GitTest.php';
 require_once './VersionControl_Git_ComponentTest.php';
 require_once './VersionControl_Git_ObjectTest.php';

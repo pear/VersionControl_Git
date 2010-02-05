@@ -6,6 +6,8 @@ set_include_path(get_include_path().PATH_SEPARATOR.realpath('../'));
 require_once 'PHPUnit/Framework.php';
 require_once 'VersionControl/Git.php';
 
+require_once './checkFixtures.php';
+
 class VersionControl_Git_Object_TreeTest extends PHPUnit_Framework_TestCase
 {
   public function testConstruct()
