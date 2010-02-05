@@ -24,7 +24,7 @@ $git = new VersionControl_Git('/path/to/repository');
 
     <para>Do you want to create new repository? It is easy.</para>
     <para>First, create an instance of VersionControl_Git and pass a directory what you want to create new Git repository.</para>
-    <para>Next, call the VersionControl_Git::initialRepository() method.</para>
+    <para>Next, call the VersionControl_Git::initRepository() method.</para>
 
     <programlisting role="php">
 <![CDATA[
@@ -35,10 +35,10 @@ require_once 'VersionControl/Git.php';
 $git = new VersionControl_Git('/path/to/repository');
 
 // create new repository
-$git->initialRepository();
+$git->initRepository();
 
 // If you want to create bare repository, pass true as the first argument
-$git->initialRepository(true);
+$git->initRepository(true);
 ]]>
     </programlisting>
 
