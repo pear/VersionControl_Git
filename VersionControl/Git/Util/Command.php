@@ -212,22 +212,28 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
     {
         $command = $this->createCommandString($arguments, $options);
 
-        $currentDir = getcwd();
-        chdir($this->git->getDirectory());
+        $descriptorspec = array(
+          1 => array('pipe', 'w'),
+          2 => array('pipe', 'w'),
+        );
+        $pipes = array();
+        $fp = proc_open($command, $descriptorspec, $pipes, realpath($this->git->getDirectory()));
 
-        $outputFile = tempnam(sys_get_temp_dir(), 'VCG');
+        $stdout = stream_get_contents($pipes[1]);
+        $stderr = stream_get_contents($pipes[2]);
+          fclose($pipes[1]);
+          fclose($pipes[2]);
 
-        $status = trim(shell_exec($command.' > '.$outputFile.'; echo $?'));
-        $result = file_get_contents($outputFile);
-        unlink($outputFile);
-
-        chdir($currentDir);
-
+        $status = trim(proc_close($fp));
         if ($status) {
-            $message = 'Some errors in executing git command: '.$result;
+            $message = "Some errors in executing git command\n\n"
+                     . "Output:\n"
+                     . $stdout."\n"
+                     . "Error:\n"
+                     . $stderr;
             throw new VersionControl_Git_Exception($message);
         }
 
-        return $result;
+        return $stdout;
     }
 }
