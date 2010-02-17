@@ -174,19 +174,7 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
 
   protected function removeDirectory($dir)
   {
-    foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::CHILD_FIRST) as $file)
-    {
-      if ($file->isDir())
-      {
-        rmdir($file->getPathname());
-      }
-      else
-      {
-        unlink($file->getPathname());
-      }
-    }
-
-    rmdir($dir);
+    system('rm -rf '.$dir);
   }
 }
 
