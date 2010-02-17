@@ -213,18 +213,19 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
         $command = $this->createCommandString($arguments, $options);
 
         $descriptorspec = array(
-          1 => array('pipe', 'w'),
-          2 => array('pipe', 'w'),
+            1 => array('pipe', 'w'),
+            2 => array('pipe', 'w'),
         );
         $pipes = array();
-        $fp = proc_open($command, $descriptorspec, $pipes, realpath($this->git->getDirectory()));
+        $resource = proc_open($command, $descriptorspec, $pipes, realpath($this->git->getDirectory()));
 
         $stdout = stream_get_contents($pipes[1]);
         $stderr = stream_get_contents($pipes[2]);
-          fclose($pipes[1]);
-          fclose($pipes[2]);
+        foreach ($pipes as $pipe) {
+            fclose($pipe);
+        }
 
-        $status = trim(proc_close($fp));
+        $status = trim(proc_close($resource));
         if ($status) {
             $message = "Some errors in executing git command\n\n"
                      . "Output:\n"
