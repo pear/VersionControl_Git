@@ -19,7 +19,7 @@
  *
  * @category  VersionControl
  * @package   VersionControl_Git
- * @author    Kousuke Ebihara <kousuke@co3k.org>
+ * @author    Kousuke Ebihara <ebihara@php.net>
  * @copyright 2010 Kousuke Ebihara
  * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  */
@@ -29,7 +29,7 @@
  *
  * @category  VersionControl
  * @package   VersionControl_Git
- * @author    Kousuke Ebihara <kousuke@co3k.org>
+ * @author    Kousuke Ebihara <ebihara@php.net>
  * @copyright 2010 Kousuke Ebihara
  * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  */
