@@ -186,6 +186,36 @@ class VersionControl_Git
     }
 
     /**
+     * Get an array of remote branch names
+     *
+     * @param string $name The name of remote repository
+     *
+     * @return array
+     */
+    public function getRemoteBranches($name = 'origin')
+    {
+        $result = array();
+
+        $commandResult = $this->getCommand('branch')
+            ->setOption('r')
+            ->execute();
+        $commandResult = explode(PHP_EOL, rtrim($commandResult));
+
+        foreach ($commandResult as $v) {
+            $v = trim($v);
+
+            $prefix = $name.'/';
+            if (0 !== strpos($v, $prefix)) {
+                continue;
+            }
+
+            $result[] = substr($v, strlen($prefix));
+        }
+
+        return $result;
+    }
+
+    /**
      * Get a current branch name
      *
      * @return string

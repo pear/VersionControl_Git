@@ -106,6 +106,19 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
     $this->assertEquals($branches[7], 'master');
   }
 
+  public function testGetRemoteBranches()
+  {
+    $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+
+    $branches = $instance->getRemoteBranches();
+
+    $this->assertEquals(count($branches), 8);
+    $this->assertEquals($branches[0], 'branch1');
+    $this->assertEquals($branches[7], 'master');
+
+    $this->assertEquals(count($instance->getRemoteBranches('undefined-repository')), 0);
+  }
+
   public function testGetCurrentBranch()
   {
     $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
