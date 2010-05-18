@@ -80,6 +80,18 @@ class VersionControl_Git
     }
 
     /**
+     * Get Git version (e.g. 1.7.0)
+     *
+     * @return string
+     */
+    public function getGitVersion()
+    {
+        $command = $this->getCommand('--version');
+
+        return substr(trim($command->execute()), strlen('git version '));
+    }
+
+    /**
      * Get an instance of the VersionControl_Git_Util_RevListFetcher that is
      * related to this repository
      *

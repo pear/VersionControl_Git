@@ -23,6 +23,14 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
     $this->assertTrue($instance instanceof VersionControl_Git);
   }
 
+  public function testGetGitVersion()
+  {
+    $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $version = $instance->getGitVersion();
+
+    $this->assertTrue((bool)preg_match('/^[0-9]+\.[0-9]+\.[0-9]+/', $version));
+  }
+
   public function testGetCommits()
   {
     $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
