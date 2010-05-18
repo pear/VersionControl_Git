@@ -142,6 +142,24 @@ class VersionControl_Git
 
         if (null !== $directory) {
             $command->addArgument($directory);
+
+            // cloning to empty directory is supported in 1.6.2-rc0 +
+            // see: http://git.kernel.org/?p=git/git.git;a=commit;h=55892d239819
+            if (is_dir($directory) && version_compare('1.6.1.4', $this->getGitVersion(), '>=')) {
+                $isEmptyDir = true;
+                $entries = scandir($directory);
+                foreach ($entries as $entry) {
+                    if ('.' !== $entry && '..' !== $entry) {
+                        $isEmptyDir = false;
+
+                        break;
+                    }
+                }
+
+                if ($isEmptyDir) {
+                    @rmdir($directory);
+                }
+            }
         }
         $command->execute();
 

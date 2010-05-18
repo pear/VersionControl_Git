@@ -80,6 +80,12 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
     $this->assertTrue(is_dir($dirname.DIRECTORY_SEPARATOR.'MY_WORKING_COPY'));
     $this->assertTrue(realpath($instance->getDirectory()) === realpath($dirname.DIRECTORY_SEPARATOR.'MY_WORKING_COPY'));
     $this->removeDirectory($dirname);
+
+    $dirname = $this->generateTmpDir();
+    $instance = new VersionControl_Git($dirname);
+    $instance->createClone('git://gist.github.com/265855.git', false, $dirname);
+    $this->assertTrue(is_file($dirname.DIRECTORY_SEPARATOR.'patch_for_pecl_runkit.diff'));
+    $this->removeDirectory($dirname);
   }
 
   public function testInitRepository()
