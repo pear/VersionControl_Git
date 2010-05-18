@@ -159,10 +159,21 @@ class VersionControl_Git
      */
     public function initRepository($isBare = false)
     {
-        $this->getCommand('init')
-            ->setOption('bare', $isBare)
-            ->setOption('q')
-            ->execute();
+        if (!$isBare || version_compare('1.5.6.6', $this->getGitVersion(), '<='))
+        {
+            $this->getCommand('init')
+                ->setOption('bare', $isBare)
+                ->setOption('q')
+                ->execute();
+        }
+        else
+        {
+            // see: http://git.kernel.org/?p=git/git.git;a=commit;h=74d3b23
+            $this->getCommand('--bare')
+                ->addArgument('init')
+                ->addArgument('-q')  // it is just a quick hack
+                ->execute();
+        }
     }
 
     /**
