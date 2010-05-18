@@ -63,7 +63,15 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
     $dirname = $this->generateTmpDir();
     $instance = new VersionControl_Git($dirname);
     $instance->createClone('git://gist.github.com/265855.git', true);
-    $this->assertTrue(is_file($dirname.DIRECTORY_SEPARATOR.'265855.git'.DIRECTORY_SEPARATOR.'HEAD'));
+    if (version_compare('1.6.0-rc1', $instance->getGitVersion(), '>='))
+    {
+      // see: http://git.kernel.org/?p=git/git.git;a=commit;h=6612f87
+      $this->assertTrue(is_file($dirname.DIRECTORY_SEPARATOR.'265855'.DIRECTORY_SEPARATOR.'HEAD'));
+    }
+    else
+    {
+      $this->assertTrue(is_file($dirname.DIRECTORY_SEPARATOR.'265855.git'.DIRECTORY_SEPARATOR.'HEAD'));
+    }
     $this->removeDirectory($dirname);
 
     $dirname = $this->generateTmpDir();
