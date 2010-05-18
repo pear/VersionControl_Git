@@ -178,10 +178,10 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
     $i1 = new DummyGitCommand($git);
 
     $result = $i1->setSubCommand('log')
-      ->setOption('oneline')
+      ->setOption('pretty', 'oneline')
       ->setOption('grep', 'initial')
       ->execute();
 
-    $this->assertEquals(trim($result), 'b8adc72 initial commit');
+    $this->assertEquals(trim($result), 'b8adc7214881bb71b9741b5d8228ebf346197d47 initial commit');
   }
 }
