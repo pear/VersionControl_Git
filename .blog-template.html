@@ -1,0 +1,451 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+ 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+  <head> 
+    <link rel="shortcut icon" href="{Favicon}" />
+    {block:Description}<meta name="description" content="{MetaDescription}" />{/block:Description}
+    <title>{Title}{block:SearchPage}: {lang:Search results for SearchQuery}{/block:SearchPage}{block:PostSummary}: {PostSummary}{/block:PostSummary}</title>
+    <!-- Default values -->
+    <meta name="text:Header slogan" content="is a tumblelog." />
+    <meta name="color:Background" content="#FFFFFF"/>
+    <meta name="color:Link" content="#346B9A"/>
+    <meta name="color:Link hover" content="#9A6934"/>
+    <meta name="font:Body" content="Georgia, serif"/>
+    <meta name="font:Date" content="Helvetica, Arial, sans-serif"/>
+    <meta name="if:Show notes" content="0">
+    <meta name="if:Show album art on audio posts" content="1" />
+    <meta name="text:Disqus Shortname" content="" />
+    <meta name="if:Show comment count on frontpage" content="0" />
+
+    <style>
+    /* General styling */
+    body {
+      padding: 0; margin: 0;
+      background: {color:Background};
+      font: 14px/20px {font:Body};
+    }
+    h2 { margin-top: 0; font-size: 16px; }
+    /* "fake smallcaps" */
+    h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; }
+    object { margin-bottom: 1em; margin-top: 0.5em; }
+    sup { line-height: 1; }
+    p, pre { margin-top: 0; padding-top: 0; }
+    img { display: block; margin-bottom: 20px; margin-top: 5px; }
+    a { color: {color:Link}; text-decoration: none; } 
+      a:hover { color: {color:Link hover}; }
+      a img { outline: 0; border: none; }
+    blockquote { 
+      width: 470px; 
+      margin-left: -30px; 
+      padding-left: 30px; 
+      color: #222;
+      /* This is the quote mark in the left corner (also, the only image
+      in this theme). Remove if you don't want it. */
+      background: url(http://static.tumblr.com/sajzoro/2pUkqr1t1/aster.png) 
+        top left no-repeat; 
+      font-style: italic;
+      margin-top: 0; 
+    }
+      /* Make nested blockquotes behave. */
+      blockquote blockquote { margin-left: 0; }
+      /* ems in blockquotes look like normal text. Could be confusing; should work
+         fine unless there is a giant em block at the end of the blockquote, or
+         worse, making up the whole blockquote. Remove if you don't want to take
+         that risk, but instead suffer from a lack of distinguished emphasis in
+         blockquotes. */
+      blockquote em { font-style: normal; }
+      blockquote ul, blockquote ol { padding-left: 2em; }
+    ul, ol { padding-left: 0; }
+    
+    /* Specific elements. */
+    div#head {
+      padding: 60px;
+    }
+    div#main {
+      width: 800px;
+      margin: 0 auto;
+    }
+    a#past { float: left; } 
+    a#future { float: right; margin-right: 4px; } 
+    span#page { float: left; width: 300px; text-align: center; color: #666; }
+    div#last { margin-bottom: 2em; }
+    ul#bottom {
+      list-style: none; padding-top: 0; margin-top: 0; padding-left: 0; margin-left: 0;
+      width: 340px; float: left; margin-bottom: 2em;
+    }
+    ul#bottom li {
+      float: left; margin-right: 40px; padding-left: 0;
+    }
+    div#foot {
+      width: 540px; margin: 0 auto;
+      margin-bottom: 40px;
+    }
+    
+    /* Various repeated elements. */
+    span.permalink {
+      float: left; width: 130px;
+      font-size: 12px;
+      font-family: {font:Date};
+    }
+    span.permalink a {
+      font-weight: bold;
+      text-decoration: none;
+    }
+    
+    div.realpost {
+      float: left;
+      width: 650px;
+      margin-bottom: 4em; padding-top: 0; margin-top: 0;
+    }
+    
+    {block:IfShowNotes}div.realpost { margin-bottom: 6em; }{/block:IfShowNotes}
+    {block:IfShowCommentCountOnFrontpage}
+    div.realpost { margin-bottom: 6em; }
+    {block:IfShowNotes}div.realpost { margin-bottom: 7em; }{/block:IfShowNotes}
+    {/block:IfShowCommentCountOnFrontpage}
+    
+    body#permalink-page div.realpost {
+      margin-bottom: 2em;
+    }
+    
+    div.realpost div { 
+      /* sorry, css gods */
+      width: 500px; 
+      padding-top: 0;
+    }
+    div.audio embed { margin-top: .3em; margin-bottom: 1em; }
+    img.album-art { float: right; padding-left: 2em; height: 100px; width: 100px; }
+    
+    div.chat ol {
+      list-style: none; margin-top: 0;
+    }
+      span.label { font-weight: bold; }
+    h2 { margin-top: 0; font-size: 16px; }
+    div.text h2 a { color: #000; }
+    /* In case you want to quote in quote post, we need to distinguish
+       *the* quote from any other blockquotes in the post. (No yo dawgs 
+       here. It might be useful.) */
+    blockquote.thequote { 
+      font-size: 1.25em; line-height: 1.3; color: #000;
+    }
+
+    div.text img {
+      max-width: 500px
+    }
+    div.text blockquote img {
+      max-width: 150px
+    }
+    
+    ol.notes {
+        font-size: 12px;
+        font-family: {font:Date};
+        list-style-type: none;
+        margin: 0 0 70px 130px;
+    }
+        ol.notes img {
+            display: none;
+        }
+    div.post div.question {
+      font-weight: bold;
+      margin-bottom: 1em;
+    }
+        
+    {block:IfDisqusShortname}
+    /* Styling for Disqus comments */
+    div#disqus_thread {
+      width: 480px; margin: 0 auto;
+      padding-right: 60px;
+      margin-bottom: 2em;
+      margin-top: -1em;
+    }
+    
+    div#disqus_thread h3 {
+      margin-bottom: 1.5em;
+    }
+    
+    div#disqus_thread div#dsq-comments-title { margin-top: 3em; }
+    
+    body#with-disqus div#it.post {
+      margin-top: 0;
+    }
+    
+    body#with-disqus h1 {
+      margin-bottom: -2em;
+    }
+    
+    body#with-disqus div.realpost {
+      margin-bottom: 0; padding-bottom: 0;
+    }
+    
+    .dsq-comment-header-meta {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    
+    p#powered-by-disqus {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10px;
+      margin-top: 2em;
+      text-transform: uppercase;
+    }
+    
+    div#disqus_thread .dsq-options {
+      display: none;
+    }
+    {/block:IfDisqusShortname}
+    
+    .search_query { font-weight: bold; }
+    
+    {CustomCSS}
+
+		body {
+  		margin-top: 1.0em;
+  		background-color: #765b6b;
+		  font-family: "Helvetica,Arial,FreeSans";
+  		color: #ffffff;
+    }
+    #container {
+      margin: 0 auto;
+      width: 700px;
+    }
+		h1 { font-size: 3.8em; color: #89a494; margin-bottom: 3px; }
+		h1 .small { font-size: 0.4em; }
+		h1 a { text-decoration: none }
+		h2 { font-size: 1.5em; color: #89a494; }
+    h3 { text-align: center; color: #89a494; }
+    a { color: #89a494; }
+    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
+    .download { float: right; }
+		pre { background: #000; color: #fff; padding: 15px;}
+    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
+    .footer { text-align:center; padding-top:30px; font-style: italic; }
+    </style> 
+  </head> 
+  <body id="{block:IfDisqusShortname}{block:PermalinkPage}with-disqus{/block:PermalinkPage}{/block:IfDisqusShortname}
+{block:PermalinkPage} permalink-page{/block:PermalinkPage}"> 
+  
+<div id="container">
+  <div id="head">
+    <h1><a href="/">{Title}</a></h1> 
+    
+        <div style="width: 540px; margin: 10px auto 0 auto; display: none; {block:HasPages}display: block;{/block:HasPages}{block:AskEnabled}display: block;{/block:AskEnabled}{block:SubmissionsEnabled}display: block;{/block:SubmissionsEnabled}">
+            {block:HasPages}
+            {block:Pages}<a href="{URL}">{Label}</a>&nbsp;&nbsp;&nbsp;{/block:Pages}
+            {/block:HasPages}
+            {block:AskEnabled}<a href="/ask">{AskLabel}</a>&nbsp;&nbsp;&nbsp;{/block:AskEnabled}
+            {block:SubmissionsEnabled}<a href="/submit">{SubmitLabel}</a>{/block:SubmissionsEnabled}
+        </div>
+  </div>
+    
+  <div id="main">
+    {block:SearchPage}
+    <div class="post search">
+    <span class="permalink">{lang:Search}</span>
+    <div class="realpost"><div>
+        {block:SearchResults}
+            {lang:SearchResultCount results for SearchQuery 2}.
+        {/block:SearchResults}
+        {block:NoSearchResults}
+            {lang:No search results for SearchQuery 2}.
+        {/block:NoSearchResults}
+    </div></div></div>
+    {/block:SearchPage}
+    
+    {block:Posts}
+    {block:Link}
+    <div class="post link"> 
+      {block:Date}
+      <span class="permalink">
+          <a href="{Permalink}">{ShortMonth} {DayOfMonth}, {Year}</a><br />
+          {block:IfDisqusShortName}{block:IfShowCommentCountOnFrontpage}<a href="{Permalink}#disqus_thread"></a><br />
+          {/block:IfShowCommentCountOnFrontpage}{/block:IfDisqusShortName}{block:IfShowNotes}{NoteCountWithLabel}{/block:IfShowNotes}
+      </span>
+      {/block:Date}
+      <div class="realpost"><div>
+      <h2><a href="{URL}">{Name}</a></h2> 
+      {block:Description}{Description}{/block:Description}
+      </div></div>
+    </div>
+    {/block:Link}
+    {block:Answer}
+    <div class="post answer">
+      {block:Date}
+      <span class="permalink">
+          <a href="{Permalink}">{ShortMonth} {DayOfMonth}, {Year}</a><br />
+          {block:IfDisqusShortName}{block:IfShowCommentCountOnFrontpage}<a href="{Permalink}#disqus_thread"></a><br />
+          {/block:IfShowCommentCountOnFrontpage}{/block:IfDisqusShortName}{block:IfShowNotes}{NoteCountWithLabel}{/block:IfShowNotes}
+      </span>
+      {/block:Date}
+      <div class="realpost"><div>
+      <div class="question">{lang:Asker asked}: {Question}</div>
+      {Answer}
+      </div>
+    </div>
+    {/block:Answer}
+    {block:Chat}
+    <div class="post chat">
+      {block:Date}
+      <span class="permalink">
+          <a href="{Permalink}">{ShortMonth} {DayOfMonth}, {Year}</a><br />
+          {block:IfDisqusShortName}{block:IfShowCommentCountOnFrontpage}<a href="{Permalink}#disqus_thread"></a><br />
+          {/block:IfShowCommentCountOnFrontpage}{/block:IfDisqusShortName}{block:IfShowNotes}{NoteCountWithLabel}{/block:IfShowNotes}
+      </span>
+      {/block:Date}
+      <div class="realpost"><div>
+        {block:Title}<h2><a href="{Permalink}">{Title}</a></h2>{/block:Title}
+        <ol>
+          {block:Lines}
+          <li>{block:Label}<span class="label">{Label}</span>{/block:Label}
+          {Line}</li>
+          {/block:Lines}
+        </ol>
+      </div></div>
+    </div>
+    {/block:Chat}
+    {block:Video}
+    <div class="post video">
+      {block:Date}
+      <span class="permalink">
+          <a href="{Permalink}">{ShortMonth} {DayOfMonth}, {Year}</a><br />
+          {block:IfDisqusShortName}{block:IfShowCommentCountOnFrontpage}<a href="{Permalink}#disqus_thread"></a><br />
+          {/block:IfShowCommentCountOnFrontpage}{/block:IfDisqusShortName}{block:IfShowNotes}{NoteCountWithLabel}{/block:IfShowNotes}
+      </span>
+      {/block:Date}
+      <div class="realpost"><div>
+      {Video-500}
+      {block:Caption}{Caption}{/block:Caption}
+      </div></div>
+    </div>
+    {/block:Video}
+    {block:Audio}
+    <div class="post audio">
+      {block:Date}
+      <span class="permalink">
+          <a href="{Permalink}">{ShortMonth} {DayOfMonth}, {Year}</a><br />
+          {block:IfDisqusShortName}{block:IfShowCommentCountOnFrontpage}<a href="{Permalink}#disqus_thread"></a><br />
+          {/block:IfShowCommentCountOnFrontpage}{/block:IfDisqusShortName}{block:IfShowNotes}{NoteCountWithLabel}{/block:IfShowNotes}
+      </span>
+      {/block:Date}
+      <div class="realpost"><div>
+      {block:IfShowAlbumArtOnAudioPosts}
+      {block:AlbumArt}
+      <img src="{AlbumArtURL}" alt="{block:Artist}{Artist}{/block:Artist}{block:TrackName} - {TrackName}{/block:TrackName}" class="album-art" />  
+{/block:AlbumArt}{/block:IfShowAlbumArtOnAudioPosts}
+      {AudioPlayerBlack}
+      {block:Caption}{Caption}{/block:Caption}
+      </div></div>
+    </div>
+    {/block:Audio}
+    {block:Photo}
+    <div class="post photo">
+      {block:Date}
+      <span class="permalink">
+          <a href="{Permalink}">{ShortMonth} {DayOfMonth}, {Year}</a><br />
+          {block:IfDisqusShortName}{block:IfShowCommentCountOnFrontpage}<a href="{Permalink}#disqus_thread"></a><br />
+          {/block:IfShowCommentCountOnFrontpage}{/block:IfDisqusShortName}{block:IfShowNotes}{NoteCountWithLabel}{/block:IfShowNotes}
+      </span>
+      {/block:Date}
+      <div class="realpost"><div>
+        {LinkOpenTag}
+        <img src="{PhotoUrl-500}" alt="{PhotoAlt}"/>
+        {LinkCloseTag}
+        {block:Caption}{Caption}{/block:Caption}
+      </div></div>
+    </div>{/block:Photo}
+    {block:Quote}
+    <div class="post quote">
+      {block:Date}
+      <span class="permalink">
+          <a href="{Permalink}">{ShortMonth} {DayOfMonth}, {Year}</a><br />
+          {block:IfDisqusShortName}{block:IfShowCommentCountOnFrontpage}<a href="{Permalink}#disqus_thread"></a><br />
+          {/block:IfShowCommentCountOnFrontpage}{/block:IfDisqusShortName}{block:IfShowNotes}{NoteCountWithLabel}{/block:IfShowNotes}
+      </span>
+      {/block:Date}
+      <div class="realpost"><div>
+        <blockquote class="thequote">{Quote}</blockquote>
+        {block:Source}{Source}{/block:Source}
+      </div></div>
+    </div>{/block:Quote}
+    {block:Text}
+    <div class="post text">
+      <span class="permalink">
+      {block:Date}
+          <a href="{Permalink}">{ShortMonth} {DayOfMonth}, {Year}</a><br />
+          {block:IfDisqusShortName}{block:IfShowCommentCountOnFrontpage}<a href="{Permalink}#disqus_thread"></a><br />
+          {/block:IfShowCommentCountOnFrontpage}{/block:IfDisqusShortName}{block:IfShowNotes}{NoteCountWithLabel}{/block:IfShowNotes}
+{/block:Date}
+          <br />
+      </span>
+      <div class="realpost"><div>
+        {block:Title}<h2><a href="{Permalink}">{Title}</a></h2>{/block:Title}
+        {Body}
+      </div></div>
+    </div>{/block:Text}
+    {/block:Posts}
+    
+    {block:IfDisqusShortname}
+      {block:Permalink}
+      <div id="disqus_thread">
+      <script type="text/javascript" src="http://disqus.com/forums/{text:Disqus Shortname}/embed.js"></script>
+      <noscript><a href="http://{text:Disqus Shortname}.disqus.com/?url=ref">{lang:View the discussion thread}</a></noscript>
+      <p id="powered-by-disqus">{lang:Blog comments powered by Disqus 2}</p>
+      </div>
+      {/block:Permalink}
+    {/block:IfDisqusShortname}
+    
+    {block:IfShowNotes}
+    {PostNotes}
+    {/block:IfShowNotes}
+    
+    {block:IndexPage}
+    {block:Pagination}
+    <div class="post">
+    <span class="permalink"><strong>{lang:Navigate}</strong></span>
+      <div class="realpost"><div>
+      {block:NextPage}<a href="{NextPage}" id="past">&laquo; {lang:To the past}</a>{/block:NextPage}
+      <span id="page">{lang:Page CurrentPage of TotalPages}</span>
+      {block:PreviousPage}<a href="{PreviousPage}" id="future">{lang:To the future} &raquo;</a>{/block:PreviousPage}
+      </div></div>
+    </div>
+    {/block:Pagination}
+    {/block:IndexPage}
+    
+    <div class="post last" id="it">
+    <span class="permalink"><strong>{lang:About}</strong></span>
+      <div class="realpost" id="last"><div>
+      {Description}
+      <a href="{RSS}">{lang:Subscribe via RSS}</a>.
+      </div></div>
+    </div>
+    
+    <div id="foot"> 
+    <ul id="bottom">
+      <li><a href="http://tumblr.com/">Tumblr</a></li> 
+      <li>Theme by <a href="http://dailymeh.tumblr.com/">Simen</a></li>
+    </ul> 
+    <form action="/search" method="get"> 
+    <input type="text" name="q" value="{lang:Search}" onclick="javascript:if (this.value == '{lang:Search}') this.value = '';"/> 
+    </form> 
+    </div>
+    
+  </div>
+  
+  {block:IfDisqusShortname}
+        <script type="text/javascript">
+            //<![CDATA[
+            (function() {
+                var links = document.getElementsByTagName('a');
+                var query = '?';
+                for(var i = 0; i < links.length; i++) {
+                    if(links[i].href.indexOf('#disqus_thread') >= 0) {
+                        query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+                    }
+                }
+                document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/{text:Disqus Shortname}/get_num_replies.js' + query + '"></' + 'script>');
+            })();
+            //]]>
+        </script>
+    {/block:IfDisqusShortname}
+    </div>
+  </body>
+</html>
