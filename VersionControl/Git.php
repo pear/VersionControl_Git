@@ -24,6 +24,8 @@
  * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  */
 
+require_once 'System.php';
+
 require_once 'PEAR/Exception.php';
 require_once 'VersionControl/Git/Exception.php';
 
@@ -62,7 +64,7 @@ class VersionControl_Git
      *
      * @var string
      */
-    protected $gitCommandPath = '/usr/bin/git';
+    protected $gitCommandPath;
 
     /**
      * Constructor
@@ -384,6 +386,17 @@ class VersionControl_Git
      */
     public function getGitCommandPath()
     {
+        // Guess path to git binary
+        if (!$this->gitCommandPath) {
+            $this->gitCommandPath = @System::which('git');
+
+            if (!$this->gitCommandPath) {
+                $message = 'Guessing path to git binary is failed.'
+                         . ' You must specify path to git binary yourself.';
+                throw new VersionControl_Git_Exception($message);
+            }
+        }
+
         return $this->gitCommandPath;
     }
 
