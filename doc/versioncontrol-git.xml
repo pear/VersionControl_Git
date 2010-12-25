@@ -274,7 +274,7 @@ $tree = $git->getTree($commits[0]->getTree());
 ]]>
           </programlisting>
 
-          <para>The instance doesn't have any contents at the first. If you want to get contents, you must call "fetch()" method.</para>
+          <para>The instance doesn't have any contents at the first. If you want to get contents and names, you must call "fetch()" method.</para>
           <programlisting role="php">
 <![CDATA[
 <?php
@@ -288,7 +288,7 @@ $tree->fetch();
 ]]>
           </programlisting>
 
-          <para>The VersionControl_Git_Object_Commit implements the SeekableIterator interface. You can iterate and seek contents of tree.</para>
+          <para>The VersionControl_Git_Object_Tree implements the SeekableIterator interface. You can iterate and seek contents of tree.</para>
 
           <programlisting role="php">
 <![CDATA[
@@ -302,38 +302,53 @@ $tree = $git->getTree($commits[0]->getTree());
 $tree->fetch();
 
 foreach ($tree as $content) {
-   var_dump($content);
+    echo $content->getName().':'.PHP_EOL;
+    var_dump($content);
 }
 
 /*
 results:
 
+file1:
 object(VersionControl_Git_Object_Blob)#304 (3) {
 }
+file2:
 object(VersionControl_Git_Object_Blob)#305 (3) {
 }
+file3:
 object(VersionControl_Git_Object_Blob)#306 (3) {
 }
+file4:
 object(VersionControl_Git_Object_Blob)#307 (3) {
 }
+dir1:
 object(VersionControl_Git_Object_Tree)#308 (4) {
 }
+dir2:
 object(VersionControl_Git_Object_Tree)#309 (4) {
 }
+dir3:
 object(VersionControl_Git_Object_Tree)#311 (4) {
 }
+dir4:
 object(VersionControl_Git_Object_Tree)#312 (4) {
 }
+dir5:
 object(VersionControl_Git_Object_Tree)#313 (4) {
 }
+dir6:
 object(VersionControl_Git_Object_Tree)#314 (4) {
 }
+dir7:
 object(VersionControl_Git_Object_Tree)#315 (4) {
 }
+dir8:
 object(VersionControl_Git_Object_Tree)#316 (4) {
 }
+file5:
 object(VersionControl_Git_Object_Blob)#317 (3) {
 }
+dir9:
 object(VersionControl_Git_Object_Tree)#318 (4) {
 }
 */
@@ -388,6 +403,19 @@ $blob = $tree->current()->fetch();
 var_dump($blob->getContent());
 ]]>
           </programlisting>
+
+          <para>Be aware that the VersionControl_Git_Object_Blob can't understand its filename unless a tree object specified it.</para>
+          <para>Named blob will teach you its name by calling the getName() method.</para>
+
+          <programlisting role="php">
+<![CDATA[
+<?php
+
+$blob = $tree->current()->fetch();
+var_dump($blob->getName());
+]]>
+          </programlisting>
+
         </section>
 
         <section xml:id="package.tools.versioncontrol-git.tutorial.handle-command">

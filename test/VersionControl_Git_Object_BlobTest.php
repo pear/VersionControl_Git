@@ -34,4 +34,13 @@ class VersionControl_Git_Object_BlobTest extends PHPUnit_Framework_TestCase
 
     $this->assertEquals($instance->getContent(), 'example');
   }
+
+  public function testToGetName()
+  {
+    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $obj = new VersionControl_Git_Object_Blob($git, '33a9488b167e4391ad6297a1e43e56f7ec8a294e', 'FILENAME');
+    $obj->fetch();
+
+    $this->assertEquals($obj->getName(), 'FILENAME');
+  }
 }

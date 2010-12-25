@@ -43,16 +43,25 @@ abstract class VersionControl_Git_Object extends VersionControl_Git_Component
     public $id;
 
     /**
+     * The human-readable name
+     *
+     * @var string
+     */
+    protected $name;
+
+    /**
      * Constructor
      *
-     * @param VersionControl_Git $git An instance of the VersionControl_Git
-     * @param string             $id  An identifier of this object
+     * @param VersionControl_Git $git   An instance of the VersionControl_Git
+     * @param string             $id    An identifier of this object
+     * @param string             $name  A human-readable name of this object
      */
-    public function __construct(VersionControl_Git $git, $id = null)
+    public function __construct(VersionControl_Git $git, $id = null, $name = null)
     {
         parent::__construct($git);
 
         $this->id = $id;
+        $this->name = $name;
     }
 
     /**
@@ -73,5 +82,15 @@ abstract class VersionControl_Git_Object extends VersionControl_Git_Component
     public function __toString()
     {
         return $this->id;
+    }
+
+    /**
+     * Set a human-readable name of this object
+     *
+     * @return string The identifier of this object
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

@@ -34,5 +34,13 @@ class VersionControl_Git_ObjectTest extends PHPUnit_Framework_TestCase
 
     $this->assertEquals((string)$obj, 'a45bb4512098e311e1e668bc73768cfaa75f9681');
   }
+
+  public function testToGetName()
+  {
+    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $obj = new DummyGitObject($git, 'a45bb4512098e311e1e668bc73768cfaa75f9681', 'OBJECT_NAME');
+
+    $this->assertEquals($obj->getName(), 'OBJECT_NAME');
+  }
 }
 

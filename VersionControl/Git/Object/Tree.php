@@ -54,12 +54,13 @@ class VersionControl_Git_Object_Tree extends VersionControl_Git_Object implement
      *
      * @param VersionControl_Git $git An instance of the VersionControl_Git
      * @param string             $id  An identifier of this object
+     * @param string             $name  A human-readable name of this object
      */
-    public function __construct(VersionControl_Git $git, $id)
+    public function __construct(VersionControl_Git $git, $id, $name = null)
     {
         $this->position = 0;
 
-        parent::__construct($git, $id);
+        parent::__construct($git, $id, $name);
     }
 
     /**
@@ -80,7 +81,7 @@ class VersionControl_Git_Object_Tree extends VersionControl_Git_Object implement
 
             $class = 'VersionControl_Git_Object_'.ucfirst($type);
 
-            $this->objects[] = new $class($this->git, $id);
+            $this->objects[] = new $class($this->git, $id, $name);
         }
 
         return $this;

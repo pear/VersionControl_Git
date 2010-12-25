@@ -98,4 +98,33 @@ class VersionControl_Git_Object_TreeTest extends PHPUnit_Framework_TestCase
     $instance->next();
     $this->assertFalse($instance->valid());
   }
+
+  public function testToGetName()
+  {
+    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $obj = new VersionControl_Git_Object_Tree($git, 'cd0762280ad2e733b9c9bb7992600d809b3ec261', 'TREE_NAME');
+
+    $this->assertEquals($obj->getName(), 'TREE_NAME');
+  }
+
+  public function testAllObjectsHasName()
+  {
+    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $instance = new VersionControl_Git_Object_Tree($git, 'cd0762280ad2e733b9c9bb7992600d809b3ec261');
+    $instance->fetch();
+
+    $expects = array(
+      'dir2', 'file_1', 'file_2',
+    );
+
+    $results = array();
+    foreach ($instance as $content)
+    {
+      $results[] = $content->getName();
+    }
+
+    sort($results);
+
+    $this->assertEquals($results, $expects);
+  }
 }
