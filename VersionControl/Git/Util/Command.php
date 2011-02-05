@@ -185,7 +185,7 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
             }
 
             if (true !== $v) {
-                $command .= '='.escapeshellarg($v);
+                $command .= ' '.escapeshellarg($v);
             }
         }
 
