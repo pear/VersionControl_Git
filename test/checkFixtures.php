@@ -1,7 +1,5 @@
 <?php
 
-PHPUnit_Util_Filter::addFileToFilter(__FILE__);
-
 if (!is_dir('./fixtures/001_VersionControl_Git'))
 {
   if (!is_file('./fixtures.tar.gz'))

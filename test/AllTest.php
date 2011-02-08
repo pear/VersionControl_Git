@@ -3,9 +3,7 @@
 chdir(dirname(__FILE__));
 set_include_path(get_include_path().PATH_SEPARATOR.realpath('../'));
 
-require_once 'PHPUnit/Framework.php';
-
-PHPUnit_Util_Filter::addFileToFilter(__FILE__);
+require_once 'PHPUnit/Autoload.php';
 
 require_once './checkFixtures.php';
 
