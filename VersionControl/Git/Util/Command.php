@@ -235,6 +235,20 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
             throw new VersionControl_Git_Exception($message);
         }
 
-        return $stdout;
+        return $this->stripEscapeSequence($stdout);
+    }
+
+    /**
+     * Strip terminal escape sequences from the specified string
+     *
+     * @param string $string The string that will be trimmed
+     *
+     * @return string
+     */
+    public function stripEscapeSequence($string)
+    {
+        $string = preg_replace('/\e[^a-z]*?[a-z]/i', '', $string);
+
+        return $string;
     }
 }
