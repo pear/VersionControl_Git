@@ -188,13 +188,13 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
   public function testGetGitCommandPath()
   {
     $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
-    $this->assertEquals($instance->getGitCommandPath(), '/usr/bin/git');
+    $this->assertEquals($instance->getGitCommandPath(), @System::which('git'));
   }
 
   public function testSetGitCommandPath()
   {
     $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
-    $this->assertEquals($instance->getGitCommandPath(), '/usr/bin/git');
+    $this->assertEquals($instance->getGitCommandPath(), @System::which('git'));
     $instance->setGitCommandPath('/usr/local/bin/git');
     $this->assertEquals($instance->getGitCommandPath(), '/usr/local/bin/git');
   }

@@ -131,34 +131,36 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
 
     $i1->setSubCommand('subcommand');
 
-    $this->assertEquals($i1->getCommandString(), '/usr/bin/git subcommand');
-    $this->assertEquals($i1->getCommandString(array('a1', 'a2')), '/usr/bin/git subcommand \'a1\' \'a2\'');
-    $this->assertEquals($i1->getCommandString(array(), array('o1' => 'v1', 'o2' => true, 'o3' => false, 'o' => true)), '/usr/bin/git subcommand --o1=\'v1\' --o2 -o');
-    $this->assertEquals($i1->getCommandString(array('a1', 'a2'), array('o1' => 'v1', 'o2' => true, 'o3' => false, 'o' => true)), '/usr/bin/git subcommand --o1=\'v1\' --o2 -o \'a1\' \'a2\'');
+    $pathToGit = @System::which('git');
+
+    $this->assertEquals($i1->getCommandString(), $pathToGit.' subcommand');
+    $this->assertEquals($i1->getCommandString(array('a1', 'a2')), $pathToGit.' subcommand \'a1\' \'a2\'');
+    $this->assertEquals($i1->getCommandString(array(), array('o1' => 'v1', 'o2' => true, 'o3' => false, 'o' => true)), $pathToGit.' subcommand --o1=\'v1\' --o2 -o');
+    $this->assertEquals($i1->getCommandString(array('a1', 'a2'), array('o1' => 'v1', 'o2' => true, 'o3' => false, 'o' => true)), $pathToGit.' subcommand --o1=\'v1\' --o2 -o \'a1\' \'a2\'');
 
     $i2 = clone $i1;
     $i2->setArguments(array('A1', 'A2'));
 
-    $this->assertEquals($i2->getCommandString(), '/usr/bin/git subcommand \'A1\' \'A2\'');
-    $this->assertEquals($i2->getCommandString(array('a1', 'a2')), '/usr/bin/git subcommand \'A1\' \'A2\' \'a1\' \'a2\'');
-    $this->assertEquals($i2->getCommandString(array(), array('o1' => 'v1', 'o2' => true, 'o3' => false, 'o' => true)), '/usr/bin/git subcommand --o1=\'v1\' --o2 -o \'A1\' \'A2\'');
-    $this->assertEquals($i2->getCommandString(array('a1', 'a2'), array('o1' => 'v1', 'o2' => true, 'o3' => false, 'o' => true)), '/usr/bin/git subcommand --o1=\'v1\' --o2 -o \'A1\' \'A2\' \'a1\' \'a2\'');
+    $this->assertEquals($i2->getCommandString(), $pathToGit.' subcommand \'A1\' \'A2\'');
+    $this->assertEquals($i2->getCommandString(array('a1', 'a2')), $pathToGit.' subcommand \'A1\' \'A2\' \'a1\' \'a2\'');
+    $this->assertEquals($i2->getCommandString(array(), array('o1' => 'v1', 'o2' => true, 'o3' => false, 'o' => true)), $pathToGit.' subcommand --o1=\'v1\' --o2 -o \'A1\' \'A2\'');
+    $this->assertEquals($i2->getCommandString(array('a1', 'a2'), array('o1' => 'v1', 'o2' => true, 'o3' => false, 'o' => true)), $pathToGit.' subcommand --o1=\'v1\' --o2 -o \'A1\' \'A2\' \'a1\' \'a2\'');
 
     $i3 = clone $i1;
     $i3->setOptions(array('O1' => 'V1', 'o2' => 'V2'));
 
-    $this->assertEquals($i3->getCommandString(), '/usr/bin/git subcommand --O1=\'V1\' --o2=\'V2\'');
-    $this->assertEquals($i3->getCommandString(array('a1', 'a2')), '/usr/bin/git subcommand --O1=\'V1\' --o2=\'V2\' \'a1\' \'a2\'');
-    $this->assertEquals($i3->getCommandString(array(), array('o1' => 'v1', 'o2' => true, 'o3' => false, 'o' => true)), '/usr/bin/git subcommand --O1=\'V1\' --o2 --o1=\'v1\' -o');
-    $this->assertEquals($i3->getCommandString(array('a1', 'a2'), array('o1' => 'v1', 'o2' => true, 'o3' => false, 'o' => true)), '/usr/bin/git subcommand --O1=\'V1\' --o2 --o1=\'v1\' -o \'a1\' \'a2\'');
+    $this->assertEquals($i3->getCommandString(), $pathToGit.' subcommand --O1=\'V1\' --o2=\'V2\'');
+    $this->assertEquals($i3->getCommandString(array('a1', 'a2')), $pathToGit.' subcommand --O1=\'V1\' --o2=\'V2\' \'a1\' \'a2\'');
+    $this->assertEquals($i3->getCommandString(array(), array('o1' => 'v1', 'o2' => true, 'o3' => false, 'o' => true)), $pathToGit.' subcommand --O1=\'V1\' --o2 --o1=\'v1\' -o');
+    $this->assertEquals($i3->getCommandString(array('a1', 'a2'), array('o1' => 'v1', 'o2' => true, 'o3' => false, 'o' => true)), $pathToGit.' subcommand --O1=\'V1\' --o2 --o1=\'v1\' -o \'a1\' \'a2\'');
 
     $i4 = clone $i1;
     $i4->addDoubleDash(true);
 
-    $this->assertEquals($i4->getCommandString(), '/usr/bin/git subcommand --');
-    $this->assertEquals($i4->getCommandString(array('a1', 'a2')), '/usr/bin/git subcommand \'a1\' \'a2\' --');
-    $this->assertEquals($i4->getCommandString(array(), array('o1' => 'v1', 'o2' => true, 'o3' => false, 'o' => true)), '/usr/bin/git subcommand --o1=\'v1\' --o2 -o --');
-    $this->assertEquals($i4->getCommandString(array('a1', 'a2'), array('o1' => 'v1', 'o2' => true, 'o3' => false, 'o' => true)), '/usr/bin/git subcommand --o1=\'v1\' --o2 -o \'a1\' \'a2\' --');
+    $this->assertEquals($i4->getCommandString(), $pathToGit.' subcommand --');
+    $this->assertEquals($i4->getCommandString(array('a1', 'a2')), $pathToGit.' subcommand \'a1\' \'a2\' --');
+    $this->assertEquals($i4->getCommandString(array(), array('o1' => 'v1', 'o2' => true, 'o3' => false, 'o' => true)), $pathToGit.' subcommand --o1=\'v1\' --o2 -o --');
+    $this->assertEquals($i4->getCommandString(array('a1', 'a2'), array('o1' => 'v1', 'o2' => true, 'o3' => false, 'o' => true)), $pathToGit.' subcommand --o1=\'v1\' --o2 -o \'a1\' \'a2\' --');
   }
 
   public function testExecuteException()
