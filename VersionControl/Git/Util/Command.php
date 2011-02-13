@@ -178,14 +178,16 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
                 continue;
             }
 
-            if (1 === strlen($k)) {
+            $isShortOption = (1 === strlen($k));
+
+            if ($isShortOption) {
                 $command .= ' -'.$k;
             } else {
                 $command .= ' --'.$k;
             }
 
             if (true !== $v) {
-                $command .= '='.escapeshellarg($v);
+                $command .= (($isShortOption) ? '' : '=').escapeshellarg($v);
             }
         }
 
