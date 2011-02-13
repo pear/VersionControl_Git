@@ -186,4 +186,19 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
 
     $this->assertEquals(trim($result), 'b8adc7214881bb71b9741b5d8228ebf346197d47 initial commit');
   }
+
+  public function testExecuteWithShortFormatOption()
+  {
+    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $i1 = new DummyGitCommand($git);
+
+    $result = $i1->setSubCommand('log')
+      ->setOption('n', '1')
+      ->setOption('pretty', 'oneline')
+      ->setOption('grep', 'initial')
+      ->execute();
+
+    $this->assertEquals($i1->getCommandString(), @System::which('git').' log -n\'1\' --pretty=\'oneline\' --grep=\'initial\'');
+    $this->assertEquals(trim($result), 'b8adc7214881bb71b9741b5d8228ebf346197d47 initial commit');
+  }
 }
