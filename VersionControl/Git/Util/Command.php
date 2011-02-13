@@ -241,9 +241,9 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
     }
 
     /**
-     * Strip ...
+     * Strip terminal escape sequences from the specified string
      *
-     * @param string $string A string ...
+     * @param string $string The string that will be trimmed
      *
      * @return string
      */
