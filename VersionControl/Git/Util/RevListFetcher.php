@@ -30,6 +30,7 @@
  * @category  VersionControl
  * @package   VersionControl_Git
  * @author    Kousuke Ebihara <ebihara@php.net>
+ * @author    Kirill chEbba Chebunin <iam@chebba.org>
  * @copyright 2010 Kousuke Ebihara
  * @license   http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  */
@@ -50,6 +51,13 @@ class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Util_Com
     protected $target = self::DEFAULT_TARGET;
 
     /**
+     * Commits will be filtered by modifications for this paths only
+     *
+     * @var type
+     */
+    protected $paths = array();
+
+    /**
      * Set the target
      *
      * @param string $target The target for the commits that you want to get
@@ -59,6 +67,20 @@ class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Util_Com
     public function target($target)
     {
         $this->target = $target;
+
+        return $this;
+    }
+
+    /**
+     * Set paths
+     *
+     * @param array $paths The array of paths which commits you want
+     *
+     * @return VersionControl_Git_Util_RevListFetcher The "$this" object
+     */
+    public function paths(array $paths)
+    {
+        $this->paths = $paths;
 
         return $this;
     }
@@ -74,6 +96,8 @@ class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Util_Com
 
         $this->target = self::DEFAULT_TARGET;
 
+        $this->paths = array();
+
         return $this;
     }
 
@@ -84,10 +108,16 @@ class VersionControl_Git_Util_RevListFetcher extends VersionControl_Git_Util_Com
      */
     public function fetch()
     {
-        $string = $this->setSubCommand('rev-list')
-          ->setOption('pretty', 'raw')
-          ->setArguments(array($this->target))
-          ->execute();
+        $this->setSubCommand('rev-list')
+            ->setOption('pretty', 'raw')
+            ->setArguments(array($this->target));
+
+        // Add paths to arguments
+        foreach ($this->paths as $path) {
+            $this->addArgument($path);
+        }
+
+        $string = $this->execute();
 
         $lines = explode("\n", $string);
 
