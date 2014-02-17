@@ -8,7 +8,7 @@
     ],
     "autoload": {
         "psr-0": {
-            "VersionControl_Git": "./"
+            "VersionControl": "./"
         }
     },
     "description": "VersionControl_Git is a library that provides OO interface to handle Git repository.",
