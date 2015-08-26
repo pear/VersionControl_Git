@@ -23,8 +23,8 @@
     },
     "type": "library",
     "require": {
-        "pear/pear": "dev-master",
-        "pear/pear_exception": "*"
+        "pear/pear_exception": "*",
+        "pear/pear-core-minimal": "^1.9"
     },
     "require-dev": {
         "phpunit/phpunit": "*"
