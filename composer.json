@@ -23,6 +23,7 @@
     },
     "type": "library",
     "require": {
+        "pear/pear": "dev-master",
         "pear/pear_exception": "*"
     },
     "require-dev": {
