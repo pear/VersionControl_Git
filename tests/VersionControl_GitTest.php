@@ -1,12 +1,7 @@
 <?php
-
-chdir(dirname(__FILE__));
-set_include_path(get_include_path().PATH_SEPARATOR.realpath('../'));
-
-require_once 'PHPUnit/Autoload.php';
 require_once 'VersionControl/Git.php';
 
-require_once './checkFixtures.php';
+require_once dirname(__FILE__) . '/checkFixtures.php';
 
 class VersionControl_GitTest extends PHPUnit_Framework_TestCase
 {
@@ -19,13 +14,13 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
 
   public function testConstruct()
   {
-    $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $instance = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $this->assertTrue($instance instanceof VersionControl_Git);
   }
 
   public function testGetGitVersion()
   {
-    $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $instance = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $version = $instance->getGitVersion();
 
     $this->assertTrue((bool)preg_match('/^[0-9]+\.[0-9]+\.[0-9]+/', $version));
@@ -33,7 +28,7 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
 
   public function testGetCommits()
   {
-    $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $instance = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $commits = $instance->getCommits();
 
     $this->assertTrue($commits[0] instanceof VersionControl_Git_Object_Commit);
@@ -120,7 +115,7 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
 
   public function testGetBranches()
   {
-    $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $instance = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
 
     $branches = $instance->getBranches();
     $this->assertEquals(count($branches), 8);
@@ -130,7 +125,7 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
 
   public function testGetRemoteBranches()
   {
-    $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $instance = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
 
     $branches = $instance->getRemoteBranches();
 
@@ -143,7 +138,7 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
 
   public function testGetCurrentBranch()
   {
-    $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $instance = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
 
     $this->assertEquals($instance->getCurrentBranch(), 'master');
 
@@ -155,7 +150,7 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
 
   public function testGetHeadCommits()
   {
-    $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $instance = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $heads = $instance->getHeadCommits();
 
     $this->assertEquals($heads['master'], '4ed54abb8efca38a0c794ca414b1f296279e0d85');
@@ -164,7 +159,7 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
 
   public function testGetTags()
   {
-    $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $instance = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $tags = $instance->getTags();
 
     $this->assertEquals($tags['tag1'], 'ddf8aa7e97a206847658c90a26fe740b2e17231a');
@@ -172,7 +167,7 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
 
   public function testGetTree()
   {
-    $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $instance = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $tree = $instance->getTree('master')->fetch();
 
     $this->assertTrue($tree instanceof VersionControl_Git_Object_Tree);
@@ -181,19 +176,19 @@ class VersionControl_GitTest extends PHPUnit_Framework_TestCase
 
   public function testGetDirectory()
   {
-    $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
-    $this->assertEquals($instance->getDirectory(), './fixtures/001_VersionControl_Git');
+    $instance = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
+    $this->assertEquals($instance->getDirectory(), dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
   }
 
   public function testGetGitCommandPath()
   {
-    $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $instance = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $this->assertEquals($instance->getGitCommandPath(), @System::which('git'));
   }
 
   public function testSetGitCommandPath()
   {
-    $instance = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $instance = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $this->assertEquals($instance->getGitCommandPath(), @System::which('git'));
     $instance->setGitCommandPath('/usr/local/bin/git');
     $this->assertEquals($instance->getGitCommandPath(), '/usr/local/bin/git');

@@ -1,12 +1,7 @@
 <?php
-
-chdir(dirname(__FILE__));
-set_include_path(get_include_path().PATH_SEPARATOR.realpath('../'));
-
-require_once 'PHPUnit/Autoload.php';
 require_once 'VersionControl/Git.php';
 
-require_once './checkFixtures.php';
+require_once dirname(__FILE__) . '/checkFixtures.php';
 
 class DummyGitCommand extends VersionControl_Git_Util_Command
 {
@@ -25,7 +20,7 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
 {
   public function testConstruct()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new DummyGitCommand($git);
 
     $this->assertTrue($instance instanceof VersionControl_Git_Util_Command);
@@ -33,7 +28,7 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
 
   public function testSetSubCommand()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new DummyGitCommand($git);
 
     $this->assertEquals($instance->getProperty('subCommand'), '');
@@ -45,7 +40,7 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
 
   public function testSetOptions()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new DummyGitCommand($git);
 
     $this->assertEquals($instance->getProperty('options'), array());
@@ -61,7 +56,7 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
 
   public function testSetArguments()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new DummyGitCommand($git);
 
     $this->assertEquals($instance->getProperty('arguments'), array());
@@ -77,7 +72,7 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
 
   public function testSetOption()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new DummyGitCommand($git);
 
     $options1 = array('option1' => time() * 1, 'option2' => time() * 2);
@@ -91,7 +86,7 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
 
   public function testAddArgument()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new DummyGitCommand($git);
 
     $arguments = array(1, 2, 3);
@@ -104,7 +99,7 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
 
   public function testAddDoubleDash()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new DummyGitCommand($git);
 
     $this->assertEquals($instance->getProperty('doubleDash'), false);
@@ -118,7 +113,7 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
   {
     $this->setExpectedException('VersionControl_Git_Exception');
 
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new DummyGitCommand($git);
 
     $instance->getCommandString();
@@ -126,7 +121,7 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
 
   public function testCreateCommandString()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $i1 = new DummyGitCommand($git);
 
     $i1->setSubCommand('subcommand');
@@ -167,7 +162,7 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
   {
     $this->setExpectedException('VersionControl_Git_Exception');
 
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $i1 = new DummyGitCommand($git);
 
     $i1->setSubCommand('subcommand')
@@ -176,7 +171,7 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
 
   public function testExecute()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $i1 = new DummyGitCommand($git);
 
     $result = $i1->setSubCommand('log')
@@ -189,7 +184,7 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
 
   public function testExecuteWithShortFormatOption()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $i1 = new DummyGitCommand($git);
 
     $result = $i1->setSubCommand('log')

@@ -1,18 +1,13 @@
 <?php
-
-chdir(dirname(__FILE__));
-set_include_path(get_include_path().PATH_SEPARATOR.realpath('../'));
-
-require_once 'PHPUnit/Autoload.php';
 require_once 'VersionControl/Git.php';
 
-require_once './checkFixtures.php';
+require_once dirname(__FILE__) . '/checkFixtures.php';
 
 class VersionControl_Git_Object_TreeTest extends PHPUnit_Framework_TestCase
 {
   public function testConstruct()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Tree($git, 'cd0762280ad2e733b9c9bb7992600d809b3ec261');
 
     $this->assertTrue($instance instanceof VersionControl_Git_Object_Tree);
@@ -20,7 +15,7 @@ class VersionControl_Git_Object_TreeTest extends PHPUnit_Framework_TestCase
 
   public function testFetch()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Tree($git, 'cd0762280ad2e733b9c9bb7992600d809b3ec261');
 
     $this->assertTrue($instance->fetch() instanceof VersionControl_Git_Object_Tree);
@@ -28,7 +23,7 @@ class VersionControl_Git_Object_TreeTest extends PHPUnit_Framework_TestCase
 
   public function testSeek()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Tree($git, 'cd0762280ad2e733b9c9bb7992600d809b3ec261');
     $instance->fetch();
 
@@ -43,7 +38,7 @@ class VersionControl_Git_Object_TreeTest extends PHPUnit_Framework_TestCase
   {
     $this->setExpectedException('VersionControl_Git_Exception');
 
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Tree($git, 'cd0762280ad2e733b9c9bb7992600d809b3ec261');
     $instance->fetch();
 
@@ -52,7 +47,7 @@ class VersionControl_Git_Object_TreeTest extends PHPUnit_Framework_TestCase
 
   public function testRewind()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Tree($git, 'cd0762280ad2e733b9c9bb7992600d809b3ec261');
     $instance->fetch();
 
@@ -65,7 +60,7 @@ class VersionControl_Git_Object_TreeTest extends PHPUnit_Framework_TestCase
 
   public function testKey()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Tree($git, 'cd0762280ad2e733b9c9bb7992600d809b3ec261');
     $instance->fetch();
 
@@ -75,7 +70,7 @@ class VersionControl_Git_Object_TreeTest extends PHPUnit_Framework_TestCase
 
   public function testNext()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Tree($git, 'cd0762280ad2e733b9c9bb7992600d809b3ec261');
     $instance->fetch();
 
@@ -88,7 +83,7 @@ class VersionControl_Git_Object_TreeTest extends PHPUnit_Framework_TestCase
 
   public function testValid()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Tree($git, 'cd0762280ad2e733b9c9bb7992600d809b3ec261');
     $instance->fetch();
 
@@ -101,7 +96,7 @@ class VersionControl_Git_Object_TreeTest extends PHPUnit_Framework_TestCase
 
   public function testToGetName()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $obj = new VersionControl_Git_Object_Tree($git, 'cd0762280ad2e733b9c9bb7992600d809b3ec261', 'TREE_NAME');
 
     $this->assertEquals($obj->getName(), 'TREE_NAME');
@@ -109,7 +104,7 @@ class VersionControl_Git_Object_TreeTest extends PHPUnit_Framework_TestCase
 
   public function testAllObjectsHasName()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Tree($git, 'cd0762280ad2e733b9c9bb7992600d809b3ec261');
     $instance->fetch();
 

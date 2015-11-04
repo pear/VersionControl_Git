@@ -1,18 +1,13 @@
 <?php
-
-chdir(dirname(__FILE__));
-set_include_path(get_include_path().PATH_SEPARATOR.realpath('../'));
-
-require_once 'PHPUnit/Autoload.php';
 require_once 'VersionControl/Git.php';
 
-require_once './checkFixtures.php';
+require_once dirname(__FILE__) . '/checkFixtures.php';
 
 class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 {
   public function testConstruct()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
 
     $this->assertTrue($instance instanceof VersionControl_Git_Object_Commit);
@@ -22,7 +17,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
   {
     $this->setExpectedException('VersionControl_Git_Exception');
 
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     VersionControl_Git_Object_Commit::createInstanceByArray($git, array());
   }
 
@@ -33,7 +28,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
   public function testSetTree()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
 
     $this->assertFalse($instance->setTree('cca66138995a95b45a725e8727ee97a20a816d41'));
@@ -42,7 +37,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
   public function testGetTree()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
 
     $this->assertNull($instance->getTree());
@@ -53,7 +48,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
   public function testSetParents()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
 
     $this->assertFalse($instance->setParents('ddf8aa7e97a206847658c90a26fe740b2e17231a'));
@@ -63,7 +58,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
   public function testHasParents()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
 
     $this->assertFalse($instance->hasParents());
@@ -73,7 +68,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
   public function testGetParents()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
 
     $this->assertFalse($instance->getParents());
@@ -90,7 +85,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
   public function testSetAuthor()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
 
     $this->assertFalse($instance->setAuthor('Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900'));
@@ -99,7 +94,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
   public function testGetAuthor()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
     $instance->setAuthor('author Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900');
 
@@ -111,7 +106,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
   public function testGetCreatedAt()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
     $instance->setAuthor('author Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900');
 
@@ -123,7 +118,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
   public function testSetCommitter()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
 
     $this->assertFalse($instance->setCommitter('Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900'));
@@ -132,7 +127,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
   public function testGetCommitter()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
     $instance->setCommitter('committer Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900');
 
@@ -144,7 +139,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
   public function testGetCommittedAt()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
     $instance->setCommitter('committer Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900');
 
@@ -156,7 +151,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
   public function testSetMessage()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
 
     $instance->setMessage('message');
@@ -167,14 +162,14 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
   {
     $this->setExpectedException('VersionControl_Git_Exception');
 
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, 'invalid');
     $instance->fetch();
   }
 
   public function testFetch()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
     $instance->fetch();
 
@@ -189,7 +184,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
   protected function getCreatedInstance()
   {
-    $git = new VersionControl_Git('./fixtures/001_VersionControl_Git');
+    $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = VersionControl_Git_Object_Commit::createInstanceByArray($git, array(
       'commit'    => 'commit 4ed54abb8efca38a0c794ca414b1f296279e0d85',
       'tree'      => 'tree cca66138995a95b45a725e8727ee97a20a816d41',
