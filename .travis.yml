@@ -4,4 +4,4 @@ install:
 php:
   - 5.4
 sudo: false
-script:   phpunit tests/
+script: cd tests && tar -xvzf ./fixtures.tar.gz && cd .. && phpunit tests/
