@@ -68,11 +68,9 @@
         <file name="Git.php" role="php" />
       </dir>
       <dir name="doc">
-        <file name="intro.xml" role="doc" />
-        <file name="tutorial.xml" role="doc" />
+        <file name="versioncontrol-git.xml" role="doc" />
       </dir>
-      <dir name="test">
-        <file name="AllTest.php" role="test" />
+      <dir name="tests">
         <file name="checkFixtures.php" role="test" />
         <file name="VersionControl_GitTest.php" role="test" />
         <file name="VersionControl_Git_ObjectTest.php" role="test" />
