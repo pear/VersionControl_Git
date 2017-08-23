@@ -22,12 +22,12 @@
     <active>yes</active>
   </lead>
 
-  <date>2010-09-29</date>
-  <time>16:56:34</time>
+  <date>2017-08-23</date>
+  <time>21:23:34</time>
 
   <version>
-    <release>0.4.3</release>
-    <api>0.4.3</api>
+    <release>0.5.0</release>
+    <api>0.5.0</api>
   </version>
 
   <stability>
@@ -38,14 +38,16 @@
   <license>Apache License</license>
 
   <notes>
-    * Fix Bug #17125: VersionControl_Git_Util_Command::execute() doesn&apos;t get stderr output [ebihara]
-    * Fix Bug #17402: Failed to VersionControl_Git_Util_CommandTest in before Git 1.6.2.5 [ebihara]
-    * Fix Bug #17403: Fail to test creating clone in before Git v1.6.0-rc1 [ebihara]
-    * Fix Bug #17404: Fail to init repository in before Git v1.5.5.6 [ebihara]
-    * Fix Bug #17406: Unable to clone into empty directory in before Git 1.6.2-rc0 [ebihara]
-    * Fix Bug #17910: VersionControl_Git_Util_Command::createCommandString() must be public [ebihara]
-    * Implement Feature #17283: Add ability to fetch remote branches [ebihara]
-    * Implement Feature #17401: Add ability to fetch Git version [ebihara]
+   * Fix bug #18143: Objects now have its name (e.g. filename, directory name..) [ebihara]
+   * Fix bug #17911: Adde ability to guess path to git binary [ebihara]
+   * Fix bug #17912: Fix unit test that doesn't work on PHPUnit 3.5.0+ [ebihara]
+   * Fix bug #17802: Strip terminal escape sequense [ebihara]
+   * Fix bug #17911: Fix git paths in unit tests [ebihara]
+   * Fix bug #18270: Remove space between key and value of short-form options [farazdagi]
+   * Fix date test failures [cweiske]
+   * Add paths arguments from Git rev-list [Kirill chEbba Chebunin]
+   * Add composer.json [till]
+   * Add automated test runs with travis-ci.org [doconnor]
   </notes>
 
   <contents>
@@ -98,6 +100,55 @@
   <phprelease />
 
   <changelog>
+
+    <release>
+      <date>2017-08-23</date>
+      <version>
+        <release>0.5.0</release>
+        <api>0.5.0</api>
+      </version>
+      <stability>
+        <release>alpha</release>
+        <api>alpha</api>
+      </stability>
+      <license>Apache License</license>
+      <notes>
+       * Fix bug #18143: Objects now have its name (e.g. filename, directory name..) [ebihara]
+       * Fix bug #17911: Adde ability to guess path to git binary [ebihara]
+       * Fix bug #17912: Fix unit test that doesn't work on PHPUnit 3.5.0+ [ebihara]
+       * Fix bug #17802: Strip terminal escape sequense [ebihara]
+       * Fix bug #17911: Fix git paths in unit tests [ebihara]
+       * Fix bug #18270: Remove space between key and value of short-form options [farazdagi]
+       * Fix date test failures [cweiske]
+       * Add paths arguments from Git rev-list [Kirill chEbba Chebunin]
+       * Add composer.json [till]
+       * Add automated test runs with travis-ci.org [doconnor]
+      </notes>
+    </release>
+
+    <release>
+      <date>2010-09-29</date>
+      <version>
+        <release>0.4.3</release>
+        <api>0.4.3</api>
+      </version>
+      <stability>
+        <release>alpha</release>
+        <api>alpha</api>
+      </stability>
+      <license>Apache License</license>
+      <notes>
+       * Fix Bug #17125: VersionControl_Git_Util_Command::execute() doesn&apos;t get stderr output [ebihara]
+       * Fix Bug #17402: Failed to VersionControl_Git_Util_CommandTest in before Git 1.6.2.5 [ebihara]
+       * Fix Bug #17403: Fail to test creating clone in before Git v1.6.0-rc1 [ebihara]
+       * Fix Bug #17404: Fail to init repository in before Git v1.5.5.6 [ebihara]
+       * Fix Bug #17406: Unable to clone into empty directory in before Git 1.6.2-rc0 [ebihara]
+       * Fix Bug #17910: VersionControl_Git_Util_Command::createCommandString() must be public [ebihara]
+       * Implement Feature #17283: Add ability to fetch remote branches [ebihara]
+       * Implement Feature #17401: Add ability to fetch Git version [ebihara]
+      </notes>
+    </release>
+
     <release>
       <date>2010-02-06</date>
 
@@ -119,6 +170,7 @@
         - Removed fixtures.tar.gz from packaged version (http://github.com/ebihara/VersionControl_Git/issues/closed#issue/6, http://github.com/ebihara/VersionControl_Git/issues/closed#issue/7)
       </notes>
     </release>
+
     <release>
       <date>2010-01-29</date>
 
