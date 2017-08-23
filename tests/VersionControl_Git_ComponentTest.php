@@ -16,11 +16,4 @@ class VersionControl_Git_ComponentTest extends PHPUnit_Framework_TestCase
 
     $this->assertTrue($instance instanceof VersionControl_Git_Component);
   }
-
-  public function testConstructError()
-  {
-    $this->setExpectedException('PHPUnit_Framework_Error');
-
-    $instance = new DummyGitComponent(new stdClass());
-  }
 }

@@ -110,7 +110,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
     $instance->setAuthor('author Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900');
 
-    $this->assertEquals(date('YmdHis', $instance->getCreatedAt()), '20100121011001');
+    $this->assertEquals(gmdate('Y-m-d H:i:s', $instance->getCreatedAt()), '2010-01-20 16:10:01');
 
     $instance->setAuthor('author Kousuke Ebihara <ebihara@tejimaya.com>');
     $this->assertNull($instance->getCreatedAt());
@@ -143,7 +143,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
     $instance = new VersionControl_Git_Object_Commit($git, '4ed54abb8efca38a0c794ca414b1f296279e0d85');
     $instance->setCommitter('committer Kousuke Ebihara <ebihara@tejimaya.com> 1264003801 +0900');
 
-    $this->assertEquals(date('YmdHis', $instance->getCommittedAt()), '20100121011001');
+    $this->assertEquals(gmdate('Y-m-d H:i:s', $instance->getCommittedAt()), '2010-01-20 16:10:01');
 
     $instance->setCommitter('committer Kousuke Ebihara <ebihara@tejimaya.com>');
     $this->assertNull($instance->getCommittedAt());
@@ -176,9 +176,9 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
     $this->assertEquals($instance->getTree(), 'cca66138995a95b45a725e8727ee97a20a816d41');
     $this->assertFalse($instance->hasParents());
     $this->assertEquals($instance->getAuthor(), 'Kousuke Ebihara <ebihara@tejimaya.com>');
-    $this->assertEquals(date('YmdHis', $instance->getCreatedAt()), '20100121011001');
+    $this->assertEquals(gmdate('Y-m-d H:i:s', $instance->getCreatedAt()), '2010-01-20 16:10:01');
     $this->assertEquals($instance->getCommitter(), 'Kousuke Ebihara <ebihara@tejimaya.com>');
-    $this->assertEquals(date('YmdHis', $instance->getCommittedAt()), '20100121011001');
+    $this->assertEquals(gmdate('Y-m-d H:i:s', $instance->getCommittedAt()), '2010-01-20 16:10:01');
     $this->assertEquals($instance->getMessage(), 'added directories and files');
   }
 
