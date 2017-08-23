@@ -27,6 +27,6 @@
         "pear/pear-core-minimal": "^1.9"
     },
     "require-dev": {
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "^5"
     }
 }
