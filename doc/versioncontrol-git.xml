@@ -220,7 +220,7 @@ string(35) "Kousuke Ebihara <kousuke@co3k.org>"
 
 var_dump($commits[0]->getCreatedAt());
 /*
-object(DateTime)#5 (3) {
+int(1503517047)
 }
 */
 
@@ -231,8 +231,7 @@ string(35) "Kousuke Ebihara <kousuke@co3k.org>"
 
 var_dump($commits[0]->getCommittedAt());
 /*
-object(DateTime)#6 (3) {
-}
+int(1503517047)
 */
 
 var_dump($commits[0]->getMessage());
