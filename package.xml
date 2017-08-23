@@ -11,8 +11,8 @@
   <channel>pear.php.net</channel>
   <summary>Provides OO interface to handle Git repository</summary>
   <description>
-  VersionControl_Git is a library that provides OO interface to handle Git repository.
-  You can use Git command via the wrapper class. Some features are provided by high-featured interface.
+  A library that provides an object-oriented interface to handle Git repositories.
+  The "git" command is utilized via the wrapper class.
   </description>
 
   <lead>
