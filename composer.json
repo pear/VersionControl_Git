@@ -15,7 +15,7 @@
     "include-path": [
         "./"
     ],
-    "license": "Apache License",
+    "license": "Apache-2.0",
     "name": "pear/versioncontrol_git",
     "support": {
         "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=VersionControl_Git",
@@ -23,7 +23,7 @@
     },
     "type": "library",
     "require": {
-        "pear/pear_exception": "*",
+        "pear/pear_exception": "~1.0.0",
         "pear/pear-core-minimal": "^1.9"
     },
     "require-dev": {
