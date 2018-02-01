@@ -71,9 +71,9 @@ class VersionControl_Git_Object_Tree extends VersionControl_Git_Object implement
     public function fetch()
     {
         $command = $this->git->getCommand('ls-tree')
-            ->addArgument($this->id);
+            ->addArgument('-z')->addArgument($this->id);
 
-        $lines = explode(PHP_EOL, trim($command->execute()));
+        $lines = explode("\0", trim($command->execute()));
         foreach ($lines as $line) {
             $itemString = str_replace("\t", ' ', $line);
 
