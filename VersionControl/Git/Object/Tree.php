@@ -94,6 +94,7 @@ class VersionControl_Git_Object_Tree extends VersionControl_Git_Object implement
      *
      * @return null
      */
+    #[ReturnTypeWillChange]
     public function seek($position)
     {
         $this->position = $position;
