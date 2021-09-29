@@ -1,13 +1,14 @@
 <?php
-require_once 'VersionControl/Git.php';
+
+use PHPUnit\Framework\TestCase;
 
 require_once dirname(__FILE__) . '/checkFixtures.php';
 
-class VersionControl_GitTest extends PHPUnit_Framework_TestCase
+class VersionControl_GitTest extends TestCase
 {
   public function testConstructException()
   {
-    $this->setExpectedException('VersionControl_Git_Exception');
+    $this->expectException('VersionControl_Git_Exception');
 
     new VersionControl_Git('!This is not valid direcotry!');
   }

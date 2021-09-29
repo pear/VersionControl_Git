@@ -1,5 +1,6 @@
 <?php
-require_once 'VersionControl/Git.php';
+
+use PHPUnit\Framework\TestCase;
 
 require_once dirname(__FILE__) . '/checkFixtures.php';
 
@@ -11,7 +12,7 @@ class DummyGitObject extends VersionControl_Git_Object
   }
 }
 
-class VersionControl_Git_ObjectTest extends PHPUnit_Framework_TestCase
+class VersionControl_Git_ObjectTest extends TestCase
 {
   public function testConstruct()
   {

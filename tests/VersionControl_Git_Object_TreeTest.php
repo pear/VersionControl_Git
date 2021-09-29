@@ -1,9 +1,10 @@
 <?php
-require_once 'VersionControl/Git.php';
+
+use PHPUnit\Framework\TestCase;
 
 require_once dirname(__FILE__) . '/checkFixtures.php';
 
-class VersionControl_Git_Object_TreeTest extends PHPUnit_Framework_TestCase
+class VersionControl_Git_Object_TreeTest extends TestCase
 {
   public function testConstruct()
   {
@@ -36,7 +37,7 @@ class VersionControl_Git_Object_TreeTest extends PHPUnit_Framework_TestCase
 
   public function testSeekException()
   {
-    $this->setExpectedException('VersionControl_Git_Exception');
+    $this->expectException('VersionControl_Git_Exception');
 
     $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Tree($git, 'cd0762280ad2e733b9c9bb7992600d809b3ec261');

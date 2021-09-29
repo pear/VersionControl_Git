@@ -1,5 +1,6 @@
 <?php
-require_once 'VersionControl/Git.php';
+
+use PHPUnit\Framework\TestCase;
 
 require_once dirname(__FILE__) . '/checkFixtures.php';
 
@@ -16,7 +17,7 @@ class DummyGitCommand extends VersionControl_Git_Util_Command
   }
 }
 
-class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
+class VersionControl_Git_Util_CommandTest extends TestCase
 {
   public function testConstruct()
   {
@@ -111,7 +112,7 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
 
   public function testCreateCommandStringException()
   {
-    $this->setExpectedException('VersionControl_Git_Exception');
+    $this->expectException('VersionControl_Git_Exception');
 
     $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new DummyGitCommand($git);
@@ -160,7 +161,7 @@ class VersionControl_Git_Util_CommandTest extends PHPUnit_Framework_TestCase
 
   public function testExecuteException()
   {
-    $this->setExpectedException('VersionControl_Git_Exception');
+    $this->expectException('VersionControl_Git_Exception');
 
     $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $i1 = new DummyGitCommand($git);

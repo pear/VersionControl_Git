@@ -1,9 +1,10 @@
 <?php
-require_once 'VersionControl/Git.php';
+
+use PHPUnit\Framework\TestCase;
 
 require_once dirname(__FILE__) . '/checkFixtures.php';
 
-class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
+class VersionControl_Git_Object_CommitTest extends TestCase
 {
   public function testConstruct()
   {
@@ -15,7 +16,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
   public function testCreateInstanceByArrayException()
   {
-    $this->setExpectedException('VersionControl_Git_Exception');
+    $this->expectException('VersionControl_Git_Exception');
 
     $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     VersionControl_Git_Object_Commit::createInstanceByArray($git, array());
@@ -160,7 +161,7 @@ class VersionControl_Git_Object_CommitTest extends PHPUnit_Framework_TestCase
 
   public function testFetchException()
   {
-    $this->setExpectedException('VersionControl_Git_Exception');
+    $this->expectException('VersionControl_Git_Exception');
 
     $git = new VersionControl_Git(dirname(__FILE__) . '/fixtures/001_VersionControl_Git');
     $instance = new VersionControl_Git_Object_Commit($git, 'invalid');
