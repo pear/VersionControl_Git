@@ -31,5 +31,5 @@ jobs:
 
       - name: Run tests
         run: |
-          - cd tests && tar -xzf ./fixtures.tar.gz
-          - cd .. && vendor/bin/phpunit tests/
+          cd tests && tar -xzf ./fixtures.tar.gz
+          cd .. && vendor/bin/phpunit tests/
