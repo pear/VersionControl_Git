@@ -119,6 +119,7 @@ class VersionControl_Git_Object_Tree extends VersionControl_Git_Object implement
      *
      * @return VersionControl_Git_Object
      */
+	#[ReturnTypeWillChange]
     public function current()
     {
         return $this->objects[$this->position];
