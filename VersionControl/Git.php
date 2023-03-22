@@ -112,7 +112,7 @@ class VersionControl_Git
      * @param int   $maxResults A number of results
      * @param int   $offset     A starting position of results
      *
-     * @return VersionControl_Git_Util_RevListFetcher
+     * @return array
      */
     public function getCommits($object = 'master', $maxResults = 100, $offset = 0)
     {
