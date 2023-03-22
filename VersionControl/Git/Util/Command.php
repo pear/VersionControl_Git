@@ -57,6 +57,13 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
     protected $options = array();
 
     /**
+     * Key-value array of environment variables
+     *
+     * @var array
+     */
+    protected $envVars = array();
+
+    /**
      * Flag to add "--" before the end of command
      *
      * If this is true, command is executed with "--".
@@ -110,6 +117,20 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
     }
 
     /**
+     * Set the environment variables to pass to the process.
+     *
+     * @param array $envs Array of new environment variables
+     *
+     * @return VersionControl_Git_Util_Command The "$this" object for method chain
+     */
+    public function setEnvVars($envVars)
+    {
+        $this->envVars = $envVars;
+
+        return $this;
+    }
+
+    /**
      * Set a option
      *
      * @param string      $name  A name of option
@@ -122,6 +143,21 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
     public function setOption($name, $value = true)
     {
         $this->options[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Set a single environment variable
+     *
+     * @param string      $name  A name of environment variable
+     * @param string|bool $value A value of environment variable
+     *
+     * @return VersionControl_Git_Util_Command The "$this" object for method chain
+     */
+    public function setEnvVar($name, $value)
+    {
+        $this->envVars[$name] = $value;
 
         return $this;
     }
@@ -219,7 +255,16 @@ class VersionControl_Git_Util_Command extends VersionControl_Git_Component
             2 => array('pipe', 'w'),
         );
         $pipes = array();
-        $resource = proc_open($command, $descriptorspec, $pipes, realpath($this->git->getDirectory()));
+
+        $envVars = $this->envVars;
+        if (count($envVars) === 0) {
+            $envVars = null;
+        }
+
+        $resource = proc_open(
+            $command, $descriptorspec, $pipes, realpath($this->git->getDirectory()),
+            $envVars
+        );
 
         $stdout = stream_get_contents($pipes[1]);
         $stderr = stream_get_contents($pipes[2]);
